@@ -1,0 +1,75 @@
+.card1 {
+  box-shadow: 9px 9px lightblue;
+}
+
+.login {
+  background-image: url('../images/purpleBG.jpg');
+
+}
+
+
+/* CSS code to apply circular border radius */
+.image-container {
+  width: 100px;
+  /* set desired width */
+  height: 100px;
+  /* set desired height */
+  border-radius: 50%;
+  /* apply circular border radius */
+  overflow: hidden;
+  /* hide overflow if image is larger than container */
+}
+
+/* CSS code to style the image */
+.image-container img {
+  width: 100%;
+  /* set image width to 100% of container */
+  height: 100%;
+  /* set image height to 100% of container */
+  object-fit: cover;
+  /* ensure image covers entire container without stretching */
+}
+
+.story {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.postLocationText{
+  color: black;
+  font-weight: bold;
+}
+.postCaptionText{
+  color: #082f7e; 
+  font-weight: bold;
+}
+
+.liked {
+  background-color: white;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  font-family: cursive;
+}
+
+.unliked {
+  background-color: #D14374;
+  color: white;
+  font-family: cursive;
+  border-radius: 5px;
+}
+.postPic{
+  border-color: blue;
+  border-width: 5;
+}
+
+.postMoodText{
+  color: rgb(120, 176, 55);
+  font-weight: 500;
+}
