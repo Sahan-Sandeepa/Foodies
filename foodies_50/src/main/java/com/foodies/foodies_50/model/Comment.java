@@ -9,10 +9,20 @@ public class Comment {
     private String commentedBy;
     private LocalDate commentedAt;
 
+    private User user;
+
+
     public Comment(){
         
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getCommentId() {
         return commentId;

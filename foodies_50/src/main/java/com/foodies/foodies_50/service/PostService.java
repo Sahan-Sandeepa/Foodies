@@ -19,7 +19,6 @@ public class PostService {
     }
 
     public Post addStory(Post post) {
-        post.setid(UUID.randomUUID().toString().split("-")[0]);
         return postRepository.save(post);
     }
 
@@ -27,8 +26,8 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Post getStoryByStoryId(String PostId) {
-        return postRepository.findById(PostId).get();
+    public Post getStoryByStoryId(String id) {
+        return postRepository.findById(id).get();
     }
 
     public Post updatePost(String id, Post post) throws Exception {
