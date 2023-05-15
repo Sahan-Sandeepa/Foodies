@@ -22,7 +22,7 @@ const UserProfile = () => {
   const [img, setImg] = useState();
 
   useEffect(() => {
-    const getAllEventDetails = () => {
+    const getAllProfileDetails = () => {
       axios
         .get("http://localhost:8095/users/current")
         .then((res) => {
@@ -38,7 +38,7 @@ const UserProfile = () => {
           alert("Error loading profile");
         });
     };
-    getAllEventDetails();
+    getAllProfileDetails();
   }, []);
 
   const onSubmit = () => {

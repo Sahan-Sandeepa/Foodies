@@ -14,6 +14,7 @@ import Message from "./components/message/Message";
 import UserProfile from "./components/user/UserProfile";
 import Notification from "./components/Notification/Notification";
 import { Skeleton } from "antd";
+import Profile from "./components/user/Profile";
 
 function App() {
   const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
@@ -45,8 +46,12 @@ function App() {
         element={<ProtectedComponent child={<Notification />} />}
       />
       <Route
-        path="/profile"
+        path="/editProfile"
         element={<ProtectedComponent child={<UserProfile />} />}
+      />
+      <Route
+        path="/profile"
+        element={<ProtectedComponent child={<Profile />} />}
       />
       <Route
         path="/message"
