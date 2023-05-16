@@ -15,6 +15,7 @@ import UserProfile from "./components/user/UserProfile";
 import Notification from "./components/Notification/Notification";
 import Comment from "./components/comment/Comment"
 import { Skeleton } from "antd";
+import Comment from './components/comment/Comment'
 
 function App() {
   const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
@@ -76,7 +77,9 @@ function App() {
         }
       />
       <Route path="*" element={<center>Not Found</center>} />
+
       <Route path="/comment" element={<Comment />} />
+
     </Routes>
   );
 }
