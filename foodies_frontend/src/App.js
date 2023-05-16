@@ -13,6 +13,7 @@ import { ProtectedComponent } from "./components/common/protectedComponent";
 import Message from "./components/message/Message";
 import UserProfile from "./components/user/UserProfile";
 import Notification from "./components/Notification/Notification";
+import Comment from "./components/comment/Comment"
 import { Skeleton } from "antd";
 
 function App() {
@@ -75,6 +76,7 @@ function App() {
         }
       />
       <Route path="*" element={<center>Not Found</center>} />
+      <Route path="/comment" element={<Comment />} />
     </Routes>
   );
 }
