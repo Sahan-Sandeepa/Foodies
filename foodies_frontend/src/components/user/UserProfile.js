@@ -1,12 +1,14 @@
-import { Form, Input, Button, Row, Col, Card, Avatar } from "antd"; // Import Avatar component from antd
+import { Form, Input, Button, Row, Col, Card, Avatar ,List} from "antd"; // Import Avatar component from antd
 import "../../Assets/styles/style.css";
 import { UserOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import { imageToBase64 } from "../../services/imageTobase64";
+import { useParams } from "react-router-dom";
 
 const { TextArea } = Input;
+const { Meta } = Card;
 
 const layout = {
   labelCol: {
@@ -20,9 +22,24 @@ const layout = {
 const UserProfile = () => {
   const [form] = useForm();
   const [img, setImg] = useState();
+  const [posts, setPost] = useState();
+
+  const { id } = useParams();
+useEffect(() => {
+  fetchPost();
+}, []);
+
+const fetchPost = async () => {
+  try {
+    const response = await axios.get(`http://localhost:8095/post/${id}`);
+    setPost(response.data);
+  } catch (error) {
+    console.error('Error fetching post:', error);
+  }
+};
 
   useEffect(() => {
-    const getAllEventDetails = () => {
+    const getAllProfileDetails = () => {
       axios
         .get("http://localhost:8095/users/current")
         .then((res) => {
@@ -38,7 +55,7 @@ const UserProfile = () => {
           alert("Error loading profile");
         });
     };
-    getAllEventDetails();
+    getAllProfileDetails();
   }, []);
 
   const onSubmit = () => {
@@ -183,6 +200,21 @@ const UserProfile = () => {
               </Row>
             </Card>
             {/* </Row> */}
+
+            <List
+              grid={{ gutter: 16, column: 3 }}
+              dataSource={posts}
+              renderItem={(post) => (
+                <List.Item>
+                  <Card
+                    cover={<img alt="Post" src={post.location} />}
+                    actions={[<div>{post.mood} Likes</div>]}
+                  >
+                    <Meta title={post.caption} description={post.timestamp} />
+                  </Card>
+                </List.Item>
+              )}
+            />
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import axios from "axios";
 import '../../Assets/styles/style.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../Assets/styles/style.css'
 
 
@@ -22,8 +22,9 @@ const Post = () => {
     const [mood, setMood] = useState("");
     const [location, setLocation] = useState('');
     const [caption, setCaption] = useState("");
-    const [postImage, setBase64Image] = useState("");
+    const [postImages, setBase64Image] = useState("");
 
+    const navigate=useNavigate();
 
     const imageToBase64 = file => {
 
@@ -49,37 +50,27 @@ const Post = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // get the form data from state or refs
+        const post = {
+            caption,
+            postImages,
+            mood,
+            location
 
-
-
-        // create a FormData object to store the form data, including the images
-        const formData = new FormData();
-
-
-
-        // add the caption, mood, and location fields to the formData object
-        formData.append("caption", caption);
-        formData.append("mood", mood);
-        formData.append("location", location);
-
-
-
-        // loop through each selected file and add it to the formData object
-        for (let i = 0; i < postImage.length; i++) {
-            formData.append("postImage", postImage[i]);
-        }
-
-
+        };
 
         axios
-            .post("http://localhost:8095/post/create", formData)
+            .post("http://localhost:8095/post/create", post)
             .then(() => {
-                // handle successful post creation
+                navigate("/home");
             })
             .catch((err) => {
                 alert(err);
+                console.log(post)
             });
-    };
+
+    }
+   
 
     const [numLikes, setNumLikes] = useState(
         parseInt(localStorage.getItem('numLikes')) || 0
@@ -116,16 +107,16 @@ const Post = () => {
 
     return (
         <>
-        
-        <div className='login' style={{
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+
+            <div className='login' style={{
+                minHeight: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
 
 
-      }}>
-            {/* <div style={{ backgroundColor: "#D1D0CE", padding: "30px" }}> */}
+            }}>
+                {/* <div style={{ backgroundColor: "#D1D0CE", padding: "30px" }}> */}
                 <br></br>
                 <br></br>
                 <br></br>
@@ -144,11 +135,18 @@ const Post = () => {
                             <br></br>
                             <br></br>
                             <Row gutter={[48, 16]}>
-                                <Form.Item label="Story Image" name="image" >
-                                    <div> <input type="file" onChange={handleImageInputChange} multiple />
-                                        {postImage && postImage.map(image => <img src={image} alt="Selected Image" style={{ width: 150 }} />)}
-                                    </div> </Form.Item>
+                            <Form.Item
+                                label="Image"
+                                name="image"
 
+                            >
+                                <div>
+                                    <input type="file" onChange={handleImageInputChange} />
+                                    {postImages && <img src={postImages} alt="Selected Image" style={{ width: 50 }} />}
+                                </div>
+
+
+                            </Form.Item>
                                 <br></br>
                                 <br></br>
                                 <br></br>
@@ -179,7 +177,7 @@ const Post = () => {
                                     />
 
                                 </Form.Item>
-                                <Col span={3}/>
+                                <Col span={3} />
                                 <Form.Item
                                     name="mood"
                                     label="Mood"
@@ -219,9 +217,9 @@ const Post = () => {
 
                         </Form>
                     </Card>
-                {/* </div> */}
+                    {/* </div> */}
 
-            </div>
+                </div>
 
             </div>
 

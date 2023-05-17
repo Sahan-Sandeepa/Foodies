@@ -68,7 +68,7 @@ public class user_Controller {
     return userService.addUser(User);
   }
 
-  @GetMapping
+  @GetMapping("/")
   public List<User> getUsers() {
     return userService.getAlluser();
   }
