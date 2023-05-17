@@ -9,26 +9,29 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Post {
 
     private String id;
-    private List<String> postImages;
+    private String postImages;
     private String caption;
     private String location;
     private String mood;
-    
-    
 
+    private User user;
 
-    
+    public User getUser() {
+        return user;
+    }
 
-    public Post(String id, List<String> postImages, String caption, String location, String mood) {
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Post(String id, String postImages, String caption, String location, String mood, User user) {
         this.id = id;
         this.postImages = postImages;
         this.caption = caption;
         this.location = location;
         this.mood = mood;
+        this.user = user;
     }
-
-
-
 
     public Post() {
     }
@@ -45,21 +48,13 @@ public class Post {
         this.id = id;
     }
 
-    
-
-    public List<String> getPostImages() {
+    public String getPostImages() {
         return postImages;
     }
 
-
-
-
-    public void setPostImages(List<String> postImages) {
+    public void setPostImages(String postImages) {
         this.postImages = postImages;
     }
-
-
-
 
     public String getCaption() {
         return caption;

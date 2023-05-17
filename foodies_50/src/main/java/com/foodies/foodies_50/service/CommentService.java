@@ -21,7 +21,6 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
     public Comment addComment(Comment Comment) {
-        Comment.setCommentId(UUID.randomUUID().toString().split("-")[0]);
         return commentRepository.save(Comment);
     }
 

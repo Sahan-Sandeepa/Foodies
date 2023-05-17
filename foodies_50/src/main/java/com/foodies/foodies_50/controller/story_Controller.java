@@ -1,11 +1,15 @@
 package com.foodies.foodies_50.controller;
 
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.foodies.foodies_50.model.Story;
-import com.foodies.foodies_50.service.*;
-import java.util.List;
+import com.foodies.foodies_50.model.User;
+import com.foodies.foodies_50.service.StoryService;
+import com.foodies.foodies_50.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -14,12 +18,16 @@ public class story_Controller {
 
     @Autowired
     private StoryService storyService;
- 
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Story createStory(@RequestBody Story Story){
-        return storyService.addStory(Story);
+    public Story createStory(@RequestBody Story story, Principal principal){
+        String userId = principal.getName();
+        User user = userService.getUserByUserId(userId);
+        story.setUser(user);
+        return storyService.addStory(story);
     }
 
     @GetMapping("/")
@@ -28,9 +36,9 @@ public class story_Controller {
     }
 
 
-    @GetMapping("/{StoryId}")
-    public Story getStory(@PathVariable String StoryId){
-        return storyService.getStoryByStoryId(StoryId);
+    @GetMapping("/{storyId}")
+    public Story getStory(@PathVariable String storyId){
+        return storyService.getStoryByStoryId(storyId);
     }
 
     

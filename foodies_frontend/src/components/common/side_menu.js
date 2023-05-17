@@ -14,7 +14,7 @@ import {
 import Home from "../Home/Home";
 import Story from "../story/Story";
 import Post from "../post/Post";
-import Message from "../message/Message";
+import Message from "../Friends/FindFriends";
 import Notification from "../Notification/Notification";
 import Register from "../user/Register";
 import UserProfile from "../user/UserProfile";
