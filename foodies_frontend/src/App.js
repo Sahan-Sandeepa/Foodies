@@ -60,7 +60,7 @@ function App() {
 
       <Route path="/profile"
         element={<ProtectedComponent child={<Profile />} />} />
-        
+
       <Route
         path="/message"
         element={<ProtectedComponent child={<Message />} />}
@@ -84,7 +84,11 @@ function App() {
       />
       <Route path="*" element={<center>Not Found</center>} />
 
+      <Route path="/comment" element={<Comment />} />
+
       <Route path="/comment" element={<Comment />}/>
+      <Route path="/comment" element={<Comment />} />
+
     </Routes>
   );
 }
