@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { List, Button, Table, Input } from "antd";
 import axios from "axios";
-import '../../Assets/styles/style.css'
-import logo from '../../Assets/images/bg.png'
+import "../../Assets/styles/style.css";
+import logo from "../../Assets/images/bg.png";
 import Side_menu from "../common/side_menu";
 import Story from "../story/Story";
-import { Card, Avatar, Image, Typography, Form, Modal } from 'antd';
-import { HeartOutlined, CommentOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { Card, Avatar, Image, Typography, Form, Modal } from "antd";
+import {
+  HeartOutlined,
+  CommentOutlined,
+  EnvironmentOutlined,
+} from "@ant-design/icons";
 
-import Slider from 'react-slick';
+import Slider from "react-slick";
 
 const { Text } = Typography;
 
@@ -19,14 +23,17 @@ const Home = () => {
   const [showMore, setShowMore] = useState(false);
   const [loadedData, setLoadedData] = useState(story.slice(0, 3));
   const [showPost, setPost] = useState([]);
-  {/* like start*/ }
+  {
+    /* like start*/
+  }
   const [liked, setLiked] = useState({});
   // const [unliked,setUnliked] =useState({});
   const [isLiked, setIsLiked] = useState(false);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const settings = {
-    dots: true, infinite: true,
+    dots: true,
+    infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -36,17 +43,17 @@ const Home = () => {
   const handleLike = (postId) => {
     setLiked((prevState) => ({
       ...prevState,
-      [postId]: true
+      [postId]: true,
     }));
-    sessionStorage.setItem(`post-${postId}-isLiked`, 'true');
+    sessionStorage.setItem(`post-${postId}-isLiked`, "true");
   };
 
   const handleUnlike = (postId) => {
     setLiked((prevState) => ({
       ...prevState,
-      [postId]: false
+      [postId]: false,
     }));
-    sessionStorage.setItem(`post-${postId}-isLiked`, 'false');
+    sessionStorage.setItem(`post-${postId}-isLiked`, "false");
   };
 
   useEffect(() => {
@@ -55,14 +62,15 @@ const Home = () => {
       const isLikedInStorage = sessionStorage.getItem(`post-${postId}-isLiked`);
       return {
         ...prev,
-        [postId]: isLikedInStorage === 'true'
+        [postId]: isLikedInStorage === "true",
       };
     }, {});
     setLiked(likedInStorage);
   }, [showPost]);
 
-  {/* like end*/ }
-
+  {
+    /* like end*/
+  }
 
   // const [liked, setLiked] = useState(parseInt(localStorage.getItem('numLikes')) !== 0);
   // const [numLikes, setNumLikes] = useState(
@@ -83,7 +91,6 @@ const Home = () => {
   //   setLiked(!liked);
   // }
 
-
   // function handleUnlike() {
   //   const newNumLikes = numLikes - 1;
   //   setNumLikes(newNumLikes);
@@ -98,10 +105,10 @@ const Home = () => {
 
   const fetchStories = async () => {
     try {
-      const response = await axios.get('http://localhost:8095/story/');
+      const response = await axios.get("http://localhost:8095/story/");
       const data = response.data;
       console.log(data);
-      setStory(response.data)
+      setStory(response.data);
       // Update your state with the fetched data here
     } catch (error) {
       console.log(error);
@@ -110,14 +117,14 @@ const Home = () => {
 
   useEffect(() => {
     fetchStories();
-  }, [])
+  }, []);
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('http://localhost:8095/post/');
+      const response = await axios.get("http://localhost:8095/post/");
       const data = response.data;
       console.log(data);
-      setPost(response.data)
+      setPost(response.data);
       // Update your state with the fetched data here
     } catch (error) {
       console.log(error);
@@ -126,111 +133,118 @@ const Home = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [])
-
+  }, []);
 
   //dashboard columns
-  const columns = [{
-    title: 'Donation Name',
-    dataIndex: 'caption',
-    key: 'caption',
-    render: text =>
-      <div style={{ fontFamily: "cursive", fontWeight: "bold" }}>
-        {text}
-      </div>
-
-  }, {
-    title: "Image",
-    key: "image",
-    dataIndex: "image",
-    render: image => (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <img src={image}
-          alt="Avatar"
+  const columns = [
+    {
+      title: "Donation Name",
+      dataIndex: "caption",
+      key: "caption",
+      render: (text) => (
+        <div style={{ fontFamily: "cursive", fontWeight: "bold" }}>{text}</div>
+      ),
+    },
+    {
+      title: "Image",
+      key: "image",
+      dataIndex: "image",
+      render: (image) => (
+        <div
           style={{
-            width: "80px", height: "80px", borderRadius: "50%", margin: "10px", borderColor: "red",
-            borderStyle: "groove", boxShadow: "3px 3px 3px #e78267"
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
-          onClick={() => setModalImages(image)}
-        />
-      </div>
-    ),
-  },
+        >
+          <img
+            src={image}
+            alt="Avatar"
+            style={{
+              width: "80px",
+              height: "80px",
+              borderRadius: "50%",
+              margin: "10px",
+              borderColor: "red",
+              borderStyle: "groove",
+              boxShadow: "3px 3px 3px #e78267",
+            }}
+            onClick={() => setModalImages(image)}
+          />
+        </div>
+      ),
+    },
   ];
 
-
   //post columns
-  const datas = [{
-    title: 'Donation Name',
-    dataIndex: 'mood',
-    key: 'mood',
-    render: text =>
-      <div style={{ fontFamily: "cursive", fontWeight: "bold" }}>
-        {text}
-      </div>
-
-  }, {
-    title: 'Donation Name',
-    dataIndex: 'caption',
-    key: 'caption',
-    render: text =>
-      <div style={{ fontFamily: "cursive", fontWeight: "bold" }}>
-        {text}
-      </div>
-
-  }, {
-    title: 'Donation Name',
-    dataIndex: 'location',
-    key: 'location',
-    render: text =>
-      <div style={{ fontFamily: "cursive", fontWeight: "bold" }}>
-        {text}
-      </div>
-
-  }, {
-    title: "Image",
-    key: "postImage",
-    dataIndex: "postImage",
-    render: postImage => (
-      <div>
-        <img src={postImage}
-          style={{
-
-          }}
-        />
-      </div>
-    ),
-
-  }];
-
-
-
-
-
-
+  const datas = [
+    {
+      title: "Donation Name",
+      dataIndex: "mood",
+      key: "mood",
+      render: (text) => (
+        <div style={{ fontFamily: "cursive", fontWeight: "bold" }}>{text}</div>
+      ),
+    },
+    {
+      title: "Donation Name",
+      dataIndex: "caption",
+      key: "caption",
+      render: (text) => (
+        <div style={{ fontFamily: "cursive", fontWeight: "bold" }}>{text}</div>
+      ),
+    },
+    {
+      title: "Donation Name",
+      dataIndex: "location",
+      key: "location",
+      render: (text) => (
+        <div style={{ fontFamily: "cursive", fontWeight: "bold" }}>{text}</div>
+      ),
+    },
+    {
+      title: "Image",
+      key: "postImage",
+      dataIndex: "postImage",
+      render: (postImage) => (
+        <div>
+          <img src={postImage} style={{}} />
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
-      <div className='login' style={{
-        minHeight: '90vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-
-
-      }}>
+      <div
+        className="login"
+        style={{
+          minHeight: "90vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         {/*isuru starts here */}
         <Card style={{ backgroundImage: "url(../../../Assets/images/bg.png)" }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <div style={{ overflowX: "auto", display: "flex" }}>
-              {story.map(item => (
+              {story.map((item) => (
                 // <Card>
-                <div key={item.key} style={{ marginRight: "30px", borderColor: "red" }}>
+                <div
+                  key={item.key}
+                  style={{ marginRight: "30px", borderColor: "red" }}
+                >
                   {columns[1].render(item.image)}
                   {columns[0].render(item.caption)}
                 </div>
                 // </Card>
-
               ))}
             </div>
           </div>
@@ -242,7 +256,11 @@ const Home = () => {
             style={{ height: 500 }}
             width={800}
           >
-            <img src={modalImages} alt="Selected Image" style={{ width: 700, height: 500 }} />
+            <img
+              src={modalImages}
+              alt="Selected Image"
+              style={{ width: 700, height: 500 }}
+            />
 
             {/* <div style={{ marginTop: "10px" }}>
             {selectedItem?.caption}
@@ -269,7 +287,6 @@ const Home = () => {
           </div> */}
 
           <Card style={{ backgroundColor: "#3C1676" }}>
-
             <Card>
               <List
                 itemLayout="vertical"
@@ -277,56 +294,79 @@ const Home = () => {
                 style={{ padding: 6, width: 800, paddingLeft: 120 }}
                 dataSource={showPost.slice().reverse()}
                 renderItem={(item) => (
-                  <Card style={{ borderColor: "#3C1676", margin: 5, borderWidth: 3.5, marginRight: 50, marginBottom: 25 }}>
+                  <Card
+                    style={{
+                      borderColor: "#3C1676",
+                      margin: 5,
+                      borderWidth: 3.5,
+                      marginRight: 50,
+                      marginBottom: 25,
+                    }}
+                  >
                     <List.Item
                       key={item.caption}
 
-                    // actions={[
+                      // actions={[
 
-                    //   <><HeartOutlined key="like" style={{fontSize:20}}/></>,
+                      //   <><HeartOutlined key="like" style={{fontSize:20}}/></>,
 
-                    //   <CommentOutlined key="comments" style={{fontSize:20}}/>,
+                      //   <CommentOutlined key="comments" style={{fontSize:20}}/>,
 
-                    // ]}
-
+                      // ]}
                     >
-
                       <div className="postInfor">
                         <List.Item.Meta
                           avatar={<Avatar src={item.avatar} />}
                           title={<a href={item.href}>{item.title}</a>}
-                          description={<div className="postLocationText"><EnvironmentOutlined />&nbsp;{item.location}</div>}
+                          description={
+                            <div className="postLocationText">
+                              <EnvironmentOutlined />
+                              &nbsp;{item.location}
+                            </div>
+                          }
                         />
                       </div>
                       <div>
-
-
                         <br />
                         <img
                           src={item.postImages}
                           alt="Friend"
                           style={{
-                            width: '500px',
-                            height: '500px',
-                        
+                            width: "500px",
+                            height: "500px",
                           }}
-                        /><br></br>
-                        <br>
-                        </br>
-
-                        <button onClick={() => handleLike(item.id)} disabled={liked[item.id]} className={`likeButton ${liked[item.id] ? 'liked' : 'unliked'}`}>Yummy</button>
-                        <button onClick={() => handleUnlike(item.id)} disabled={!liked[item.id]} className={`unlikeButton ${liked[item.id] ? 'unliked' : 'liked'}`}>UnYum</button>
-
+                        />
+                        <br></br>
+                        <br></br>
+                        <button
+                          onClick={() => handleLike(item.id)}
+                          disabled={liked[item.id]}
+                          className={`likeButton ${
+                            liked[item.id] ? "liked" : "unliked"
+                          }`}
+                        >
+                          Yummy
+                        </button>
+                        <button
+                          onClick={() => handleUnlike(item.id)}
+                          disabled={!liked[item.id]}
+                          className={`unlikeButton ${
+                            liked[item.id] ? "unliked" : "liked"
+                          }`}
+                        >
+                          UnYum
+                        </button>
                         {/* <p>{numLikes}</p> */}
-                        <div className="postCaptionText">
-                          {item.caption}
-                        </div>
+                        <div className="postCaptionText">{item.caption}</div>
                         <div className="postMoodText">
                           Is Feeling: {item.mood}
                         </div>
-
                         {/* <HeartOutlined key="like" style={{ fontSize: 30 }} /> {item.likes} &nbsp;&nbsp; */}
-                        <CommentOutlined key="comments" style={{ fontSize: 30 }} /> {item.comments}
+                        <CommentOutlined
+                          key="comments"
+                          style={{ fontSize: 30 }}
+                        />{" "}
+                        {item.comments}
                         <br></br>
                         <br></br>
                         <Form.Item>
@@ -335,15 +375,12 @@ const Home = () => {
                       </div>
                     </List.Item>
                   </Card>
-
                 )}
               >
-
                 {!showMore && (
                   <List.Item>
                     <Button onClick={() => setShowMore(true)}>Load More</Button>
                   </List.Item>
-
                 )}
                 {showMore && (
                   <List.Item>
@@ -355,7 +392,6 @@ const Home = () => {
           </Card>
         </Card>
       </div>
-
     </>
   );
 };
