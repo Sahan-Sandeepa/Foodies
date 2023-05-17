@@ -63,8 +63,7 @@ const Login = () => {
           backgroundRepeat: "no-repeat",
           minHeight: "100vh", // ensure the background covers the entire height of the viewport
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+       
         }}
       >
         <br></br>
