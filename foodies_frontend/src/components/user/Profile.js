@@ -11,9 +11,20 @@ const { Text } = Typography;
 
 const Profile = () => {
   const [img, setImg] = useState();
+  const [posts, setPosts] = useState([]);
   const [form] = useForm();
 
   useEffect(() => {
+    const getPosts = () => {
+      axios
+        .get("http://localhost:8095/post/current")
+        .then((res) => {
+          setPosts(res.data);
+        })
+        .catch(() => {
+          alert("Error loading posts");
+        });
+    };
     const getAllProfileDetails = () => {
       axios
         .get("http://localhost:8095/users/current")
@@ -31,6 +42,7 @@ const Profile = () => {
         });
     };
     getAllProfileDetails();
+    getPosts();
   }, []);
 
   const navigate = useNavigate();
@@ -105,25 +117,20 @@ const Profile = () => {
                     </div>
                   </Col>
                 </Row>
-
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-
-                <Row gutter={40}>
-                  <Col span={8}>
-                    <Card bordered={false}>Card content</Card>
-                  </Col>
-                  <Col span={8}>
-                    <Card bordered={false}>Card content</Card>
-                  </Col>
-                  <Col span={8}>
-                    <Card bordered={false}>Card content</Card>
-                  </Col>
+                <Row
+                  gutter={20}
+                  style={{
+                    marginTop: "10px",
+                    width: "100%",
+                  }}
+                >
+                  {posts.map((e) => (
+                    <Col>
+                      <Card bordered={false} style={{ margin: "10px" }}>
+                        Card content
+                      </Card>
+                    </Col>
+                  ))}
                 </Row>
               </Row>
             </Card>

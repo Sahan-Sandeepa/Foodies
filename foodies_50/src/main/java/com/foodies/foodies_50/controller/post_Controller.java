@@ -2,6 +2,7 @@ package com.foodies.foodies_50.controller;
 
 import com.foodies.foodies_50.model.Post;
 import com.foodies.foodies_50.service.PostService;
+import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,13 +28,19 @@ public class post_Controller {
 
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
-  public Post createStory(@RequestBody Post post) {
+  public Post createStory(@RequestBody Post post, Principal principal) {
+    post.setUserId(principal.getName());
     return postService.addStory(post);
   }
 
   @GetMapping("/")
   public List<Post> getPosts() {
     return postService.findAllStoryPosts();
+  }
+
+  @GetMapping("/current")
+  public List<Post> getUserPosts(Principal principal) {
+    return postService.findStoryByUserId(principal.getName());
   }
 
   @GetMapping("/{PostId}")
