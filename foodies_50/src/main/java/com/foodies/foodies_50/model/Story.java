@@ -9,12 +9,19 @@ public class Story {
     private String  id;
     private String image;
     private String caption;
+    private User user;
 
     public Story() {
         // Default constructor with no arguments
     }
 
-  
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Story(String id, String image2) {
         this.id = id;
@@ -49,7 +56,8 @@ public class Story {
     public void setid(String id) {
         this.id = id;
     }
-    
+
+
 
 
     // private Date createdAt;

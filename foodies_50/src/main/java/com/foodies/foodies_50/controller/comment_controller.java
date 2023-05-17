@@ -1,7 +1,10 @@
 package com.foodies.foodies_50.controller;
 
+import java.security.Principal;
 import java.util.List;
 
+import com.foodies.foodies_50.model.User;
+import com.foodies.foodies_50.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +27,15 @@ public class comment_controller {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private UserService userService;
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Comment createComment(@RequestBody Comment Comment){
-        return commentService.addComment(Comment);
+    public Comment createComment(@RequestBody Comment comment, Principal principal){
+        String userId = principal.getName();
+        User user = userService.getUserByUserId(userId);
+        comment.setUser(user);
+        return commentService.addComment(comment);
     }
 
     @GetMapping
