@@ -302,7 +302,15 @@ const Home = () => {
 
 
                         <br />
-                        <img width={500} alt={item.title} src={item.postImage} /><br></br>
+                        <img
+                          src={item.postImages}
+                          alt="Friend"
+                          style={{
+                            width: '500px',
+                            height: '500px',
+                        
+                          }}
+                        /><br></br>
                         <br>
                         </br>
 

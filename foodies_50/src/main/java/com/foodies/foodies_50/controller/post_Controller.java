@@ -4,6 +4,8 @@ import com.foodies.foodies_50.model.Post;
 import com.foodies.foodies_50.service.PostService;
 import java.security.Principal;
 import java.util.List;
+
+import com.foodies.foodies_50.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,10 @@ public class post_Controller {
   @Autowired
   private PostService postService;
 
+
+
+  @Autowired
+  private UserService userService;
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
   public Post createStory(@RequestBody Post post, Principal principal) {

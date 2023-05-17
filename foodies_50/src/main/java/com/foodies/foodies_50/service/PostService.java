@@ -4,7 +4,6 @@ import com.foodies.foodies_50.model.Post;
 import com.foodies.foodies_50.repository.MongoDBPostReporsitory;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,6 @@ public class PostService {
   }
 
   public Post addStory(Post post) {
-    post.setid(UUID.randomUUID().toString().split("-")[0]);
     return postRepository.save(post);
   }
 
@@ -27,12 +25,12 @@ public class PostService {
     return postRepository.findAll();
   }
 
-  public List<Post> findStoryByUserId(String userId) {
+  public List<Post> findAllPostsByUserId(String userId) {
     return postRepository.findAllByUserId(userId);
   }
 
-  public Post getStoryByStoryId(String PostId) {
-    return postRepository.findById(PostId).get();
+  public Post getStoryByStoryId(String id) {
+    return postRepository.findById(id).get();
   }
 
   public Post updatePost(String id, Post post) throws Exception {
@@ -48,7 +46,6 @@ public class PostService {
       try {
         throw new Exception("Story not found with id: " + id);
       } catch (Exception e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }

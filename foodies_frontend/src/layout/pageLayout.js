@@ -38,7 +38,7 @@ const PageLayout = ({ children }) => {
     getItem("Home", "/dashboard", <BankTwoTone />),
     getItem("Post", "/post", <UserOutlined />),
     getItem("Story", "/story", <SyncOutlined spin />),
-    getItem("Message", "/message", <MessageOutlined />),
+    getItem("Find Friends", "/friends", <MessageOutlined />),
     getItem("Notification", "/notification", <NotificationOutlined />),
     getItem("Profile", "/profile", <LineChartOutlined />),
     getItem("Logout", "logout", <LogoutOutlined />),
