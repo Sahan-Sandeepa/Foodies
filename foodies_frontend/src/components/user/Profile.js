@@ -5,7 +5,7 @@ import { useForm } from "antd/es/form/Form";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { UserOutlined } from "@ant-design/icons";
+import { EnvironmentOutlined, UserOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 
@@ -146,6 +146,10 @@ const Profile = () => {
                           <div className="postMoodText">
                             Is Feeling: {item.mood}
                           </div>
+                        </div>
+                        <div className="postLocationText">
+                          <EnvironmentOutlined />
+                          {item.location}
                         </div>
                       </Card>
                     </Col>
