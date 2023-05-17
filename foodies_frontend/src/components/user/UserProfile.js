@@ -39,7 +39,7 @@ const fetchPost = async () => {
 };
 
   useEffect(() => {
-    const getAllEventDetails = () => {
+    const getAllProfileDetails = () => {
       axios
         .get("http://localhost:8095/users/current")
         .then((res) => {
@@ -55,7 +55,7 @@ const fetchPost = async () => {
           alert("Error loading profile");
         });
     };
-    getAllEventDetails();
+    getAllProfileDetails();
   }, []);
 
   const onSubmit = () => {

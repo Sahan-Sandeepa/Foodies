@@ -14,6 +14,9 @@ import UserProfile from "./components/user/UserProfile";
 import Notification from "./components/Notification/Notification";
 import { Skeleton } from "antd";
 import Friends from "./components/Friends/FindFriends";
+import Profile from "./components/user/Profile";
+import Comment from './components/comment/Comment'
+
 
 function App() {
   const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
@@ -45,12 +48,21 @@ function App() {
         element={<ProtectedComponent child={<Notification />} />}
       />
       <Route
-        path="/profile"
+        path="/editProfile"
         element={<ProtectedComponent child={<UserProfile />} />}
       />
       <Route
+
         path="/friends"
         element={<ProtectedComponent child={<Friends />} />}
+
+        path="/profile"
+        element={<ProtectedComponent child={<Profile />} />}
+      />
+      <Route
+        path="/message"
+        element={<ProtectedComponent child={<Message />} />}
+
       />
       <Route
         path="/editPost"
@@ -69,6 +81,8 @@ function App() {
         }
       />
       <Route path="*" element={<center>Not Found</center>} />
+
+      <Route path="/comment" element={<Comment />}/>
     </Routes>
   );
 }

@@ -56,11 +56,11 @@ public class comment_controller {
 //         return commentService.updateComment(Comment);
 //     }
 
-@PutMapping("/new/{id}")
-public ResponseEntity<Comment>updateComment(@PathVariable("id") String id, @RequestBody Comment post){
-    Comment updatedProduct = commentService.updateComment(id, post);
-    return ResponseEntity.ok(updatedProduct);
-}
+    @PutMapping("/new/{id}")
+    public ResponseEntity<Comment>updateComment(@PathVariable("id") String id, @RequestBody Comment post){
+        Comment updatedProduct = commentService.updateComment(id, post);
+        return ResponseEntity.ok(updatedProduct);
+    }
 
     @DeleteMapping("/{CommentId}")
     public String deleteComment(@PathVariable String CommentId){
