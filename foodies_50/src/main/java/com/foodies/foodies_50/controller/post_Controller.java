@@ -46,7 +46,7 @@ public class post_Controller {
 
   @GetMapping("/current")
   public List<Post> getUserPosts(Principal principal) {
-    return postService.findStoryByUserId(principal.getName());
+    return postService.findAllPostsByUserId(principal.getName());
   }
 
   @GetMapping("/{PostId}")

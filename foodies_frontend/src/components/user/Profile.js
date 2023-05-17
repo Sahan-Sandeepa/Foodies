@@ -1,6 +1,6 @@
-import { Form, Input, Button, Row, Col, Card, Avatar, Typography } from "antd"; // Import Avatar component from antd
+import { Button, Row, Col, Card, Avatar, Typography } from "antd";
 import "../../Assets/styles/style.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "antd/es/form/Form";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -124,10 +124,29 @@ const Profile = () => {
                     width: "100%",
                   }}
                 >
-                  {posts.map((e) => (
+                  {posts.map((item) => (
                     <Col>
-                      <Card bordered={false} style={{ margin: "10px" }}>
-                        Card content
+                      <Card
+                        style={{
+                          borderColor: "#3C1676",
+                          borderWidth: 3.5,
+                          margin: "10px",
+                        }}
+                      >
+                        <div>
+                          <img
+                            src={item.postImages}
+                            alt="Friend"
+                            style={{
+                              width: "200px",
+                              height: "200px",
+                            }}
+                          />
+                          <div className="postCaptionText">{item.caption}</div>
+                          <div className="postMoodText">
+                            Is Feeling: {item.mood}
+                          </div>
+                        </div>
                       </Card>
                     </Col>
                   ))}
