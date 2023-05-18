@@ -1,9 +1,7 @@
 package com.foodies.foodies_50.controller;
 
 import com.foodies.foodies_50.model.Post;
-import com.foodies.foodies_50.model.User;
 import com.foodies.foodies_50.service.PostService;
-
 import java.security.Principal;
 import java.util.List;
 
@@ -36,11 +34,8 @@ public class post_Controller {
   private UserService userService;
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
-  public Post createStory(@RequestBody Post post, Principal principal)
-  {
-    String userId = principal.getName();
-    User user = userService.getUserByUserId(userId);
-    post.setUser(user);
+  public Post createStory(@RequestBody Post post, Principal principal) {
+    post.setUserId(principal.getName());
     return postService.addStory(post);
   }
 
@@ -49,9 +44,14 @@ public class post_Controller {
     return postService.findAllStoryPosts();
   }
 
-  @GetMapping("/{id}")
-  public Post getStory(@PathVariable String id) {
-    return postService.getStoryByStoryId(id);
+  @GetMapping("/current")
+  public List<Post> getUserPosts(Principal principal) {
+    return postService.findAllPostsByUserId(principal.getName());
+  }
+
+  @GetMapping("/{PostId}")
+  public Post getStory(@PathVariable String PostId) {
+    return postService.getStoryByStoryId(PostId);
   }
 
   @PutMapping("/new/{id}")

@@ -33,7 +33,7 @@ public class UserService {
     existingUser.setUsername(UserRequest.getUsername());
     existingUser.setName(UserRequest.getName());
     existingUser.setBio(UserRequest.getBio());
-    if (!UserRequest.getImageUrl().isEmpty()) existingUser.setImageUrl(
+    if (UserRequest.getImageUrl() != null) existingUser.setImageUrl(
       UserRequest.getImageUrl()
     );
     return userRepository.save(existingUser);
