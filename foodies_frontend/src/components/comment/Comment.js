@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { List, Button, Modal, Form, Input, message } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 const CommentBox = () => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
     const [editingComment, setEditingComment] = useState(null);
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const [hoveredCommentId, setHoveredCommentId] = useState(null);
-    const defaultCommentedBy = 'YourUsername'; // Set the default value for "commentedBy"
-    const defaultCommentedAt = new Date().toISOString().split('T')[0]; // Set the default value for "commentedAt"
+    const defaultCommentedBy = 'YourUsername';
+    const defaultCommentedAt = new Date().toISOString().split('T')[0];
 
     useEffect(() => {
         fetchComments();
@@ -31,13 +31,13 @@ const CommentBox = () => {
     const handleEnterPress = async (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
+            if (comment.trim() === '') {
+                message.error('Please enter a comment.');
+                return;
+            }
+
             if (editingComment) {
                 // Editing existing comment
-                if (comment.trim() === '') {
-                    message.error('Please enter a comment.');
-                    return;
-                }
-
                 try {
                     const updatedComment = {
                         comment,
@@ -55,6 +55,7 @@ const CommentBox = () => {
                     console.error('Error updating comment:', error);
                 }
             } else {
+                // Adding new comment
                 try {
                     const newComment = {
                         comment,
@@ -64,6 +65,7 @@ const CommentBox = () => {
                     const response = await axios.post('http://localhost:8095/comment/create', newComment);
                     setComments((prevComments) => [...prevComments, response.data]);
                     setComment('');
+                    message.success('Comment added successfully.');
                 } catch (error) {
                     console.error('Error creating comment:', error);
                 }
@@ -74,7 +76,6 @@ const CommentBox = () => {
     const handleEdit = (comment) => {
         setEditingComment(comment);
         setComment(comment.comment);
-        setIsModalVisible(true);
     };
 
     const handleDelete = async (commentId) => {
@@ -85,38 +86,6 @@ const CommentBox = () => {
         } catch (error) {
             console.error('Error deleting comment:', error);
         }
-    };
-
-    const handleModalOk = async () => {
-        if (comment.trim() === '') {
-            message.error('Please enter a comment.');
-            return;
-        }
-
-        try {
-            const updatedComment = {
-                comment,
-                commentedBy: defaultCommentedBy,
-                commentedAt: defaultCommentedAt,
-            };
-            await axios.put(`http://localhost:8095/comment/${editingComment._id}`, updatedComment);
-            setComments((prevComments) =>
-                prevComments.map((c) => (c._id === editingComment._id
-                    ? { ...c, ...updatedComment } : c))
-            );
-            setComment('');
-            setEditingComment(null);
-            setIsModalVisible(false);
-            message.success('Comment updated successfully.');
-        } catch (error) {
-            console.error('Error updating comment:', error);
-        }
-    };
-
-    const handleModalCancel = () => {
-        setIsModalVisible(false);
-        setComment('');
-        setEditingComment(null);
     };
 
     const handleCommentHover = (commentId) => {
@@ -147,6 +116,27 @@ const CommentBox = () => {
                         key={comment._id}
                         onMouseEnter={() => handleCommentHover(comment._id)}
                         onMouseLeave={handleCommentLeave}
+                        extra={
+                            hoveredCommentId === comment._id && (
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    <Button
+                                        type="text"
+                                        style={{ padding: 0 }}
+                                        onClick={() => handleEdit(comment)}
+                                    >
+                                        <EditOutlined />
+                                    </Button>
+                                    <Button
+                                        type="text"
+                                        style={{ padding: 0 }}
+                                        danger
+                                        onClick={() => handleDelete(comment._id)}
+                                    >
+                                        <DeleteOutlined />
+                                    </Button>
+                                </div>
+                            )
+                        }
                     >
                         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px' }}>
                             <span style={{ fontWeight: 'bold', marginRight: '4px' }}>{comment.commentedBy}</span>
@@ -154,46 +144,12 @@ const CommentBox = () => {
                         </div>
                         <div style={{ display: 'flex' }}>
                             <div style={{ flex: 1 }}>{comment.comment}</div>
-                            {hoveredCommentId === comment._id && (
-                                <div style={{ position: 'relative' }}>
-                                    <Button type="text" style={{ padding: 0 }} onClick={() => handleEdit(comment)}>
-                                        Edit
-                                    </Button>
-                                    <Button
-                                        type="text"
-                                        style={{ padding: 0, marginLeft: '8px' }}
-                                        danger
-                                        onClick={() => handleDelete(comment._id)}
-                                    >
-                                        Delete
-                                    </Button>
-                                </div>
-                            )}
                         </div>
                     </List.Item>
                 )}
             />
-            <Modal
-                title="Edit Comment"
-                visible={isModalVisible}
-                onOk={handleModalOk}
-                onCancel={handleModalCancel}
-                okText="Save"
-                cancelText="Cancel"
-            >
-                <Form>
-                    <Form.Item label="Comment">
-                        <Input.TextArea
-                            value={comment}
-                            onChange={handleInputChange}
-                            placeholder="Enter a comment..."
-                            rows={4}
-                            autoSize={{ minRows: 4, maxRows: 6 }}
-                        />
-                    </Form.Item>
-                </Form>
-            </Modal>
         </div>
     );
 };
+
 export default CommentBox;
