@@ -12,6 +12,7 @@ import { ProtectedComponent } from "./components/common/protectedComponent";
 import Message from "./components/Friends/FindFriends";
 import UserProfile from "./components/user/UserProfile";
 import Notification from "./components/Notification/Notification";
+import Comment from "./components/comment/Comment"
 import { Skeleton } from "antd";
 import Friends from "./components/Friends/FindFriends";
 import Profile from "./components/user/Profile";
@@ -51,14 +52,15 @@ function App() {
         path="/editProfile"
         element={<ProtectedComponent child={<UserProfile />} />}
       />
-      <Route
+      <Route 
 
         path="/friends"
         element={<ProtectedComponent child={<Friends />} />}
-
-        path="/profile"
-        element={<ProtectedComponent child={<Profile />} />}
       />
+
+      <Route path="/profile"
+        element={<ProtectedComponent child={<Profile />} />} />
+
       <Route
         path="/message"
         element={<ProtectedComponent child={<Message />} />}
@@ -82,7 +84,11 @@ function App() {
       />
       <Route path="*" element={<center>Not Found</center>} />
 
+      <Route path="/comment" element={<Comment />} />
+
       <Route path="/comment" element={<Comment />}/>
+      <Route path="/comment" element={<Comment />} />
+
     </Routes>
   );
 }
