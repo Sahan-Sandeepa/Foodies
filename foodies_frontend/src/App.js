@@ -16,7 +16,6 @@ import Comment from "./components/comment/Comment"
 import { Skeleton } from "antd";
 import Friends from "./components/Friends/FindFriends";
 import Profile from "./components/user/Profile";
-import Comment from './components/comment/Comment'
 
 
 function App() {
