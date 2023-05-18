@@ -226,7 +226,7 @@ const Home = () => {
         }}
       >
         {/*isuru starts here */}
-        <Card style={{ backgroundImage: "url(../../../Assets/images/bg.png)" }}>
+        <Card style={{backgroundColor:"lightblue"}}>
           <div
             style={{
               display: "flex",
@@ -236,15 +236,15 @@ const Home = () => {
           >
             <div style={{ overflowX: "auto", display: "flex" }}>
               {story.map((item) => (
-                // <Card>
+                <Card style={{border:"none", backgroundColor: 'transparent'}}>
                 <div
                   key={item.key}
-                  style={{ marginRight: "30px", borderColor: "red" }}
+                  style={{ marginRight: "30px", borderColor: "red",alignItems:"center",textAlign:"center" }}
                 >
                   {columns[1].render(item.image)}
                   {columns[0].render(item.caption)}
                 </div>
-                // </Card>
+                 </Card>
               ))}
             </div>
           </div>
@@ -291,13 +291,13 @@ const Home = () => {
               <List
                 itemLayout="vertical"
                 size="large"
-                style={{ padding: 6, width: 800, paddingLeft: 120 }}
+                style={{ padding: 6, width: 800}}
                 dataSource={showPost.slice().reverse()}
                 renderItem={(item) => (
                   <Card
                     style={{
                       borderColor: "#3C1676",
-                      margin: 5,
+                      margin: 10,
                       borderWidth: 3.5,
                       marginRight: 50,
                       marginBottom: 25,

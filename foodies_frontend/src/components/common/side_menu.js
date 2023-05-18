@@ -66,6 +66,9 @@ const Side_menu = (props) => {
     <>
       <div>
         <Layout style={{ minHeight: "180vh" }}>
+        <div style={{ textAlign: "right", padding: "16px", color: "white" }}>
+            Welcome
+          </div>
           <Sider
             collapsible
             collapsed={collapsed}
