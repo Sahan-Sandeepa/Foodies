@@ -1,4 +1,4 @@
-import { Button, Row, Col, Card, Avatar, Typography } from "antd";
+import { Button, Row, Col, Card, Avatar, Typography, Modal } from "antd";
 import "../../Assets/styles/style.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "antd/es/form/Form";
@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { EnvironmentOutlined, UserOutlined } from "@ant-design/icons";
+import EditPost from '../post/EditPost.js';
 
 const { Text } = Typography;
 
@@ -13,6 +14,9 @@ const Profile = () => {
   const [img, setImg] = useState();
   const [posts, setPosts] = useState([]);
   const [form] = useForm();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     const getPosts = () => {
@@ -50,6 +54,19 @@ const Profile = () => {
   const navigateToEditProfile = () => {
     navigate("/editProfile");
   };
+
+  {/* Modal Starts here */ }
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  {/* Modal Ends here */ }
 
   return (
     <>
@@ -133,6 +150,11 @@ const Profile = () => {
                           margin: "10px",
                         }}
                       >
+                        <div style={{ paddingLeft: "30%" }}>
+                          <Button style={{ backgroundColor: "#004225", color: "white", fontWeight: "bold", borderRadius: "13px", borderColor: "#151B54", borderWidth: "2px" }} onClick={() => { setIsModalOpen(true) }}>Edit</Button>
+
+                          <Button style={{ backgroundColor: "#9F000F", color: "#151B54", fontWeight: "bold", borderRadius: "13px", borderColor: "#151B54", borderWidth: "2px" }}>Delete</Button>
+                        </div>
                         <div>
                           <img
                             src={item.postImages}
@@ -157,10 +179,18 @@ const Profile = () => {
                 </Row>
               </Row>
             </Card>
+            <EditPost isModalOpen={isModalOpen}
+        handleCancel={handleCancel}
+
+        handleOk={async () => { setIsModalOpen(false) }}
+        selectedItem={selectedItem}
+      />
             {/* </Row> */}
           </div>
+
         </div>
       </div>
+      
     </>
   );
 };
