@@ -16,6 +16,7 @@ import Comment from "./components/comment/Comment"
 import { Skeleton } from "antd";
 import Friends from "./components/Friends/FindFriends";
 import Profile from "./components/user/Profile";
+import Register from "./components/user/Register";
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
         element={<ProtectedComponent child={<EditPost />} />}
       />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/callback" element={<CallbackPage />} />
       <Route
         path="/"

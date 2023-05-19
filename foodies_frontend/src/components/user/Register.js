@@ -94,21 +94,23 @@ const Register = () => {
                       </h1>
                     </Row>
                     <Row>
-                      <Form.Item label="Profile Image:" name="imageUrl">
-                        <div>
-                          <input
-                            type="file"
-                            onChange={handleImageInputChange}
-                          />
-                          {form.getFieldValue("imageUrl") && (
-                            <img
-                              src={form.getFieldValue("imageUrl")}
-                              alt="Selected Image"
-                              style={{ width: 50 }}
+                      <Col span={24}>
+                        <Form.Item label="Profile Image:" name="imageUrl">
+                          <div>
+                            <input
+                              type="file"
+                              onChange={handleImageInputChange}
                             />
-                          )}
-                        </div>
-                      </Form.Item>
+                            {form.getFieldValue("imageUrl") && (
+                              <img
+                                src={form.getFieldValue("imageUrl")}
+                                alt="Selected Image"
+                                style={{ width: 50 }}
+                              />
+                            )}
+                          </div>
+                        </Form.Item>
+                      </Col>
                     </Row>
 
                     <br></br>
