@@ -40,7 +40,6 @@ public class PostService {
       updatePost.setCaption(post.getCaption());
       updatePost.setLocation(post.getLocation());
       updatePost.setMood(post.getMood());
-      updatePost.setPostImages(post.getPostImages());
       return postRepository.save(updatePost);
     } else {
       try {
