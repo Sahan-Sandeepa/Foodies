@@ -11,10 +11,10 @@ const { TextArea } = Input;
 
 const layout = {
   labelCol: {
-    span: 3,
+    span: 4,
   },
   wrapperCol: {
-    span: 21,
+    span: 20,
   },
 };
 
@@ -35,6 +35,7 @@ const Register = () => {
       .post("http://localhost:8095/users/create", form.getFieldsValue())
       .then(() => {
         alert("User created!");
+        loginWithRedirect();
       })
       .catch((err) => {
         alert(err);

@@ -80,7 +80,6 @@ const UserProfile = () => {
         alert("Error deleting account. Please try again later.");
       });
   };
-  
 
   const handleImageInputChange = async (event) => {
     const file = event.target.files && event.target.files[0];
@@ -204,7 +203,10 @@ const UserProfile = () => {
                               </Button>
                             </Col>
                             <Col span={12}>
-                              <Button type="primary" onClick={handleDeleteAccount}>
+                              <Button
+                                type="primary"
+                                onClick={handleDeleteAccount}
+                              >
                                 Delete My Account
                               </Button>
                             </Col>
@@ -217,21 +219,6 @@ const UserProfile = () => {
               </Row>
             </Card>
             {/* </Row> */}
-
-            <List
-              grid={{ gutter: 16, column: 3 }}
-              dataSource={posts}
-              renderItem={(post) => (
-                <List.Item>
-                  <Card
-                    cover={<img alt="Post" src={post.location} />}
-                    actions={[<div>{post.mood} Likes</div>]}
-                  >
-                    <Meta title={post.caption} description={post.timestamp} />
-                  </Card>
-                </List.Item>
-              )}
-            />
           </div>
         </div>
       </div>

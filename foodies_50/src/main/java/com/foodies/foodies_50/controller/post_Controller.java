@@ -1,10 +1,14 @@
 package com.foodies.foodies_50.controller;
 
 import com.foodies.foodies_50.model.Post;
+import com.foodies.foodies_50.model.PostWithUser;
+import com.foodies.foodies_50.model.User;
 import com.foodies.foodies_50.service.PostService;
 import com.foodies.foodies_50.service.UserService;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +42,35 @@ public class post_Controller {
   }
 
   @GetMapping("/")
-  public List<Post> getPosts() {
-    return postService.findAllStoryPosts();
+  public List<PostWithUser> getPosts() {
+    List<Post> posts = postService.findAllStoryPosts();
+    List<PostWithUser> modifiedPosts = new ArrayList<>();
+    for (int i = 0; i < posts.size(); i++) {
+      Post post = posts.get(i);
+      if (post.getUserId() != null) {
+        User userData = userService.getUserByUserId(posts.get(i).getUserId());
+        PostWithUser postWithUser = new PostWithUser(
+          post.getid(),
+          post.getPostImages(),
+          post.getCaption(),
+          post.getLocation(),
+          post.getMood(),
+          post.getUserId(),
+          userData.getUsername(),
+          userData.getImageUrl()
+        );
+        modifiedPosts.add(postWithUser);
+      } else {
+        PostWithUser postWithUser = new PostWithUser();
+        postWithUser.setid(post.getUserId());
+        postWithUser.setPostImages(post.getPostImages());
+        postWithUser.setCaption(post.getCaption());
+        postWithUser.setLocation(post.getLocation());
+        postWithUser.setMood(post.getMood());
+        postWithUser.setUserId(post.getUserId());
+      }
+    }
+    return modifiedPosts;
   }
 
   @GetMapping("/current")
