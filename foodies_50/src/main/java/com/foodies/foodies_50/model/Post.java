@@ -13,24 +13,23 @@ public class Post {
     private String caption;
     private String location;
     private String mood;
+    private String userId;
 
-    private User user;
-
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public Post(String id, String postImages, String caption, String location, String mood, User user) {
+    public Post(String id, String postImages, String caption, String location, String mood, String userId) {
         this.id = id;
         this.postImages = postImages;
         this.caption = caption;
         this.location = location;
         this.mood = mood;
-        this.user = user;
+        this.userId = userId;
     }
 
     public Post() {

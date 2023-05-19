@@ -8,6 +8,7 @@ import {
   NotificationOutlined,
   LogoutOutlined,
   SyncOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -41,7 +42,9 @@ const PageLayout = ({ children }) => {
     getItem("Find Friends", "/friends", <MessageOutlined />),
     getItem("Notification", "/notification", <NotificationOutlined />),
     getItem("Profile", "/profile", <LineChartOutlined />),
+    getItem("Find Friends","",<UsergroupAddOutlined />),
     getItem("Logout", "logout", <LogoutOutlined />),
+    
   ];
 
   const [collapsed, setCollapsed] = useState(false);
@@ -52,11 +55,15 @@ const PageLayout = ({ children }) => {
     <>
       <div>
         <Layout style={{ minHeight: "180vh" }}>
+          
           <Sider
             collapsible
             collapsed={collapsed}
             onCollapse={(value) => setCollapsed(value)}
           >
+             <div style={{ textAlign: "center", padding: "16px", color: "white",fontSize:20 }}>
+            Welcome to <br></br>Foodies
+          </div>
             <Menu
               theme="dark"
               selectedKeys={[selectedKeys]}
@@ -64,6 +71,9 @@ const PageLayout = ({ children }) => {
               items={items}
               Button="hello"
             />
+             <div style={{ textAlign: "center", padding: "16px", color: "white",fontSize:20 }}>
+            Welcome to <br></br>Foodies
+          </div>
           </Sider>
 
           <Layout className="site-layout">

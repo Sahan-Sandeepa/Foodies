@@ -1,19 +1,34 @@
-import { Form, Input, Button, Row, Col, Card, Avatar, Typography } from "antd"; // Import Avatar component from antd
+import { Button, Row, Col, Card, Avatar, Typography, Modal } from "antd";
 import "../../Assets/styles/style.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "antd/es/form/Form";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { UserOutlined } from "@ant-design/icons";
+import { EnvironmentOutlined, UserOutlined } from "@ant-design/icons";
+import EditPost from '../post/EditPost.js';
 
 const { Text } = Typography;
 
 const Profile = () => {
   const [img, setImg] = useState();
+  const [posts, setPosts] = useState([]);
   const [form] = useForm();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
   useEffect(() => {
+    const getPosts = () => {
+      axios
+        .get("http://localhost:8095/post/current")
+        .then((res) => {
+          setPosts(res.data);
+        })
+        .catch(() => {
+          alert("Error loading posts");
+        });
+    };
     const getAllProfileDetails = () => {
       axios
         .get("http://localhost:8095/users/current")
@@ -31,6 +46,7 @@ const Profile = () => {
         });
     };
     getAllProfileDetails();
+    getPosts();
   }, []);
 
   const navigate = useNavigate();
@@ -38,6 +54,19 @@ const Profile = () => {
   const navigateToEditProfile = () => {
     navigate("/editProfile");
   };
+
+  {/* Modal Starts here */ }
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  {/* Modal Ends here */ }
 
   return (
     <>
@@ -105,32 +134,63 @@ const Profile = () => {
                     </div>
                   </Col>
                 </Row>
+                <Row
+                  gutter={20}
+                  style={{
+                    marginTop: "10px",
+                    width: "100%",
+                  }}
+                >
+                  {posts.map((item) => (
+                    <Col>
+                      <Card
+                        style={{
+                          borderColor: "#3C1676",
+                          borderWidth: 3.5,
+                          margin: "10px",
+                        }}
+                      >
+                        <div style={{ paddingLeft: "30%" }}>
+                          <Button style={{ backgroundColor: "#004225", color: "white", fontWeight: "bold", borderRadius: "13px", borderColor: "#151B54", borderWidth: "2px" }} onClick={() => { setIsModalOpen(true) }}>Edit</Button>
 
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-
-                <Row gutter={40}>
-                  <Col span={8}>
-                    <Card bordered={false}>Card content</Card>
-                  </Col>
-                  <Col span={8}>
-                    <Card bordered={false}>Card content</Card>
-                  </Col>
-                  <Col span={8}>
-                    <Card bordered={false}>Card content</Card>
-                  </Col>
+                          <Button style={{ backgroundColor: "#9F000F", color: "#151B54", fontWeight: "bold", borderRadius: "13px", borderColor: "#151B54", borderWidth: "2px" }}>Delete</Button>
+                        </div>
+                        <div>
+                          <img
+                            src={item.postImages}
+                            alt="Friend"
+                            style={{
+                              width: "200px",
+                              height: "200px",
+                            }}
+                          />
+                          <div className="postCaptionText">{item.caption}</div>
+                          <div className="postMoodText">
+                            Is Feeling: {item.mood}
+                          </div>
+                        </div>
+                        <div className="postLocationText">
+                          <EnvironmentOutlined />
+                          {item.location}
+                        </div>
+                      </Card>
+                    </Col>
+                  ))}
                 </Row>
               </Row>
             </Card>
+            <EditPost isModalOpen={isModalOpen}
+        handleCancel={handleCancel}
+
+        handleOk={async () => { setIsModalOpen(false) }}
+        selectedItem={selectedItem}
+      />
             {/* </Row> */}
           </div>
+
         </div>
       </div>
+      
     </>
   );
 };
