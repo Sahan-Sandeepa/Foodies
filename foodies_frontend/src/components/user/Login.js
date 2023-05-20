@@ -37,7 +37,7 @@ const Login = () => {
           <Button onClick={() => loginWithRedirect()}>Log In</Button>
         </Col>
         <Col span={24}>
-          <Link to="/user">
+          <Link to="/register">
             <h4>
               No Account?<a> Sign Up</a>
             </h4>

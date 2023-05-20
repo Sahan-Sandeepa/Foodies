@@ -221,7 +221,6 @@ const Home = () => {
     try {
       const response = await axios.get("http://localhost:8095/post/");
       const data = response.data;
-      console.log(data);
       setPost(response.data);
       // Update your state with the fetched data here
     } catch (error) {
@@ -324,7 +323,7 @@ const Home = () => {
         }}
       >
         {/*isuru starts here */}
-        <Card style={{backgroundColor:"lightblue"}}>
+        <Card style={{ backgroundColor: "lightblue" }}>
           <div
             style={{
               display: "flex",
@@ -334,15 +333,22 @@ const Home = () => {
           >
             <div style={{ overflowX: "auto", display: "flex" }}>
               {story.map((item) => (
-                <Card style={{border:"none", backgroundColor: 'transparent'}}>
-                <div
-                  key={item.key}
-                  style={{ marginRight: "30px", borderColor: "red",alignItems:"center",textAlign:"center" }}
+                <Card
+                  style={{ border: "none", backgroundColor: "transparent" }}
                 >
-                  {columns[1].render(item.image)}
-                  {columns[0].render(item.caption)}
-                </div>
-                 </Card>
+                  <div
+                    key={item.key}
+                    style={{
+                      marginRight: "30px",
+                      borderColor: "red",
+                      alignItems: "center",
+                      textAlign: "center",
+                    }}
+                  >
+                    {columns[1].render(item.image)}
+                    {columns[0].render(item.caption)}
+                  </div>
+                </Card>
               ))}
             </div>
           </div>
@@ -389,7 +395,7 @@ const Home = () => {
               <List
                 itemLayout="vertical"
                 size="large"
-                style={{ padding: 6, width: 800}}
+                style={{ padding: 6, width: 800 }}
                 dataSource={showPost.slice().reverse()}
                 renderItem={(item) => (
                   <Card
@@ -414,8 +420,8 @@ const Home = () => {
                     >
                       <div className="postInfor">
                         <List.Item.Meta
-                          avatar={<Avatar src={item.avatar} />}
-                          title={<a href={item.href}>{item.title}</a>}
+                          avatar={<Avatar src={item.profilePicture} />}
+                          title={<a href={item.href}>{item.userName}</a>}
                           description={
                             <div className="postLocationText">
                               <EnvironmentOutlined />

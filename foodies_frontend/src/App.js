@@ -12,11 +12,11 @@ import { ProtectedComponent } from "./components/common/protectedComponent";
 import Message from "./components/Friends/FindFriends";
 import UserProfile from "./components/user/UserProfile";
 import Notification from "./components/Notification/Notification";
-import Comment from "./components/comment/Comment"
+import Comment from "./components/comment/Comment";
 import { Skeleton } from "antd";
 import Friends from "./components/Friends/FindFriends";
 import Profile from "./components/user/Profile";
-
+import Register from "./components/user/Register";
 
 function App() {
   const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
@@ -51,25 +51,25 @@ function App() {
         path="/editProfile"
         element={<ProtectedComponent child={<UserProfile />} />}
       />
-      <Route 
-
+      <Route
         path="/friends"
         element={<ProtectedComponent child={<Friends />} />}
       />
 
-      <Route path="/profile"
-        element={<ProtectedComponent child={<Profile />} />} />
+      <Route
+        path="/profile"
+        element={<ProtectedComponent child={<Profile />} />}
+      />
 
       <Route
         path="/message"
         element={<ProtectedComponent child={<Message />} />}
-
       />
       <Route
         path="/editPost"
         element={<ProtectedComponent child={<EditPost />} />}
       />
-      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/callback" element={<CallbackPage />} />
       <Route
         path="/"
@@ -77,14 +77,13 @@ function App() {
           isAuthenticated ? (
             <Navigate to={"/dashboard"} />
           ) : (
-            <Navigate to={"/login"} />
+            <Navigate to={"/register"} />
           )
         }
       />
       <Route path="*" element={<center>Not Found</center>} />
 
       <Route path="/comment" element={<Comment />} />
-
     </Routes>
   );
 }

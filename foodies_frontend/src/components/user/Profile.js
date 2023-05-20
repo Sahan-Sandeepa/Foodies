@@ -6,7 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { EnvironmentOutlined, UserOutlined } from "@ant-design/icons";
-import EditPost from '../post/EditPost.js';
+import EditPost from "../post/EditPost.js";
 
 const { Text } = Typography;
 
@@ -55,7 +55,9 @@ const Profile = () => {
     navigate("/editProfile");
   };
 
-  {/* Modal Starts here */ }
+  {
+    /* Modal Starts here */
+  }
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -66,7 +68,9 @@ const Profile = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  {/* Modal Ends here */ }
+  {
+    /* Modal Ends here */
+  }
 
   return (
     <>
@@ -151,9 +155,35 @@ const Profile = () => {
                         }}
                       >
                         <div style={{ paddingLeft: "30%" }}>
-                          <Button style={{ backgroundColor: "#004225", color: "white", fontWeight: "bold", borderRadius: "13px", borderColor: "#151B54", borderWidth: "2px" }} onClick={() => { setIsModalOpen(true) }}>Edit</Button>
+                          <Button
+                            style={{
+                              backgroundColor: "#004225",
+                              color: "white",
+                              fontWeight: "bold",
+                              borderRadius: "13px",
+                              borderColor: "#151B54",
+                              borderWidth: "2px",
+                            }}
+                            onClick={() => {
+                              setIsModalOpen(true);
+                              setSelectedItem(item);
+                            }}
+                          >
+                            Edit
+                          </Button>
 
-                          <Button style={{ backgroundColor: "#9F000F", color: "#151B54", fontWeight: "bold", borderRadius: "13px", borderColor: "#151B54", borderWidth: "2px" }}>Delete</Button>
+                          <Button
+                            style={{
+                              backgroundColor: "#9F000F",
+                              color: "#151B54",
+                              fontWeight: "bold",
+                              borderRadius: "13px",
+                              borderColor: "#151B54",
+                              borderWidth: "2px",
+                            }}
+                          >
+                            Delete
+                          </Button>
                         </div>
                         <div>
                           <img
@@ -179,18 +209,18 @@ const Profile = () => {
                 </Row>
               </Row>
             </Card>
-            <EditPost isModalOpen={isModalOpen}
-        handleCancel={handleCancel}
-
-        handleOk={async () => { setIsModalOpen(false) }}
-        selectedItem={selectedItem}
-      />
+            <EditPost
+              isModalOpen={isModalOpen}
+              handleCancel={handleCancel}
+              handleOk={async () => {
+                setIsModalOpen(false);
+              }}
+              selectedItem={selectedItem}
+            />
             {/* </Row> */}
           </div>
-
         </div>
       </div>
-      
     </>
   );
 };

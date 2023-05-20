@@ -1,4 +1,4 @@
-import { Form, Input, Button, Row, Col, Card, Avatar ,List} from "antd"; // Import Avatar component from antd
+import { Form, Input, Button, Row, Col, Card, Avatar, List } from "antd"; // Import Avatar component from antd
 import "../../Assets/styles/style.css";
 import { UserOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -25,18 +25,18 @@ const UserProfile = () => {
   const [posts, setPost] = useState();
 
   const { id } = useParams();
-useEffect(() => {
-  fetchPost();
-}, []);
+  useEffect(() => {
+    fetchPost();
+  }, []);
 
-const fetchPost = async () => {
-  try {
-    const response = await axios.get(`http://localhost:8095/post/${id}`);
-    setPost(response.data);
-  } catch (error) {
-    console.error('Error fetching post:', error);
-  }
-};
+  const fetchPost = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8095/post/${id}`);
+      setPost(response.data);
+    } catch (error) {
+      console.error("Error fetching post:", error);
+    }
+  };
 
   useEffect(() => {
     const getAllProfileDetails = () => {
@@ -63,6 +63,22 @@ const fetchPost = async () => {
       .put("http://localhost:8095/users/current", form.getFieldsValue())
       .then(() => alert("User updated"))
       .catch((e) => alert(e));
+  };
+
+  const handleDeleteAccount = () => {
+    axios
+      .delete("http://localhost:8095/users/current")
+      .then(() => {
+        // Show success message
+        alert("Account deleted successfully");
+        // Redirect the user to the login page or any other desired location
+        // Replace the code below with the appropriate navigation code
+        window.location.href = "/login";
+      })
+      .catch((error) => {
+        // Show error message
+        alert("Error deleting account. Please try again later.");
+      });
   };
 
   const handleImageInputChange = async (event) => {
@@ -187,7 +203,10 @@ const fetchPost = async () => {
                               </Button>
                             </Col>
                             <Col span={12}>
-                              <Button type="primary" htmlType="submit">
+                              <Button
+                                type="primary"
+                                onClick={handleDeleteAccount}
+                              >
                                 Delete My Account
                               </Button>
                             </Col>
@@ -200,21 +219,6 @@ const fetchPost = async () => {
               </Row>
             </Card>
             {/* </Row> */}
-
-            <List
-              grid={{ gutter: 16, column: 3 }}
-              dataSource={posts}
-              renderItem={(post) => (
-                <List.Item>
-                  <Card
-                    cover={<img alt="Post" src={post.location} />}
-                    actions={[<div>{post.mood} Likes</div>]}
-                  >
-                    <Meta title={post.caption} description={post.timestamp} />
-                  </Card>
-                </List.Item>
-              )}
-            />
           </div>
         </div>
       </div>
