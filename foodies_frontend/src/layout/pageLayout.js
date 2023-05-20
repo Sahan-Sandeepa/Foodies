@@ -61,6 +61,7 @@ const PageLayout = ({ children }) => {
              <div style={{ textAlign: "center", padding: "16px", color: "white",fontSize:20 }}>
             Welcome to <br></br>Foodies
           </div>
+          <img src="" alt="Logo" width={50} height={50}/>
             <Menu
               theme="dark"
               selectedKeys={[selectedKeys]}
@@ -68,9 +69,7 @@ const PageLayout = ({ children }) => {
               items={items}
               Button="hello"
             />
-             <div style={{ textAlign: "center", padding: "16px", color: "white",fontSize:20 }}>
-            Welcome to <br></br>Foodies
-          </div>
+            
           </Sider>
 
           <Layout className="site-layout">
