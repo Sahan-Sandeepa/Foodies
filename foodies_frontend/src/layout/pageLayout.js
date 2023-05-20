@@ -8,6 +8,7 @@ import {
   NotificationOutlined,
   LogoutOutlined,
   SyncOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -41,7 +42,9 @@ const PageLayout = ({ children }) => {
     getItem("Find Friends", "/friends", <MessageOutlined />),
     getItem("Notification", "/notification", <NotificationOutlined />),
     getItem("Profile", "/profile", <LineChartOutlined />),
+    getItem("Find Friends","",<UsergroupAddOutlined />),
     getItem("Logout", "logout", <LogoutOutlined />),
+    
   ];
 
   const [collapsed, setCollapsed] = useState(false);
