@@ -118,12 +118,12 @@ const EditPost = (props) => {
                       type="link"
                       htmlType="submit"
                       style={{
-                        backgroundColor: "#FBB117",
+                        backgroundColor: "red",
                         fontWeight: "bold",
                         borderRadius: "13px",
                         borderColor: "#151B54",
                         borderWidth: "2px",
-                        color: "#151B54",
+                        color: "white",
                       }}
                       onClick={handleCancel}
                     >

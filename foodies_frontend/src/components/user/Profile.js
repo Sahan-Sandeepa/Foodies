@@ -1,12 +1,13 @@
 import { Button, Row, Col, Card, Avatar, Typography, Modal } from "antd";
 import "../../Assets/styles/style.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "antd/es/form/Form";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { EnvironmentOutlined, UserOutlined } from "@ant-design/icons";
 import EditPost from "../post/EditPost.js";
+import { notification } from 'antd';
 
 const { Text } = Typography;
 
@@ -14,7 +15,7 @@ const Profile = () => {
   const [img, setImg] = useState();
   const [posts, setPosts] = useState([]);
   const [form] = useForm();
-
+  const {id} =useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -71,6 +72,34 @@ const Profile = () => {
   {
     /* Modal Ends here */
   }
+
+  const handleDeleteAccount = async (id) => {
+    axios.delete(`http://localhost:8095/post/${id}`)
+        .then(() => {
+            notification.success({
+                message: 'Deleted Successful',
+                description: 'You have successfully Deleted Report',
+            });
+            // setIsDeleteModalOpen(false); // Hide the delete modal
+            // refresh();
+        }).catch((err) => {
+            console.log(err);
+        })
+};
+  // const handleDeleteAccount = () => {
+  //   axios
+  //     .delete("http://localhost:8095/post/" +id)
+  //     .then(() => {
+  //       // Show success message
+  //       alert("Account deleted successfully");
+  //       // Redirect the user to the login page or any other desired location
+  //       // Replace the code below with the appropriate navigation code
+  //     })
+  //     .catch((error) => {
+  //       // Show error message
+  //       alert("Error deleting account. Please try again later.");
+  //     });
+  // };
 
   return (
     <>
@@ -157,12 +186,11 @@ const Profile = () => {
                         <div style={{ paddingLeft: "30%" }}>
                           <Button
                             style={{
-                              backgroundColor: "#004225",
+                              backgroundColor: "blue",
                               color: "white",
                               fontWeight: "bold",
                               borderRadius: "13px",
-                              borderColor: "#151B54",
-                              borderWidth: "2px",
+                                borderWidth: "2px",
                             }}
                             onClick={() => {
                               setIsModalOpen(true);
@@ -174,13 +202,12 @@ const Profile = () => {
 
                           <Button
                             style={{
-                              backgroundColor: "#9F000F",
-                              color: "#151B54",
+                              backgroundColor: "red",
+                              color: "white",
                               fontWeight: "bold",
-                              borderRadius: "13px",
-                              borderColor: "#151B54",
                               borderWidth: "2px",
                             }}
+                            onClick={() => handleDeleteAccount(item.id)}
                           >
                             Delete
                           </Button>

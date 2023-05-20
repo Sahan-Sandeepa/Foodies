@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MongoDBPostReporsitory extends MongoRepository<Post, String> {
   List<Post> findAllByUserId(String userId);
+  void deleteById(String id);
+
 }

@@ -51,8 +51,8 @@ public class PostService {
     return post;
   }
 
-  public String deleteStory(String StoryId) {
-    postRepository.deleteById(StoryId);
-    return StoryId + " Post deleted ";
+  public String deleteStory(String id) {
+    postRepository.deleteById(id);
+    return id + " Post deleted ";
   }
 }

@@ -8,11 +8,14 @@ import Story from "../story/Story";
 import { Card, Avatar, Image, Typography, Form, Modal } from "antd";
 import {
   HeartOutlined,
+  EditOutlined,
+  DeleteOutlined,
   CommentOutlined,
   EnvironmentOutlined,
 } from "@ant-design/icons";
 
 import Slider from "react-slick";
+import { useNavigate, useParams } from "react-router-dom";
 
 const { Text } = Typography;
 
@@ -23,6 +26,9 @@ const Home = () => {
   const [showMore, setShowMore] = useState(false);
   const [loadedData, setLoadedData] = useState(story.slice(0, 3));
   const [showPost, setPost] = useState([]);
+  const [comment, setComments] = useState([]);
+  const navigate = useNavigate();
+  const id =useParams();
   {
     /* like start*/
   }
@@ -72,31 +78,6 @@ const Home = () => {
     /* like end*/
   }
 
-  // const [liked, setLiked] = useState(parseInt(localStorage.getItem('numLikes')) !== 0);
-  // const [numLikes, setNumLikes] = useState(
-  //   parseInt(localStorage.getItem('numLikes')) || 0
-  // );
-
-  // function handleLike() {
-  //   let newNumLikes;
-  //   if (liked) {
-  //     newNumLikes = numLikes - 1;
-  //     setNumLikes(newNumLikes);
-  //     localStorage.setItem('numLikes', newNumLikes);
-  //   } else {
-  //     newNumLikes = numLikes + 1;
-  //     setNumLikes(newNumLikes);
-  //     localStorage.setItem('numLikes', newNumLikes);
-  //   }
-  //   setLiked(!liked);
-  // }
-
-  // function handleUnlike() {
-  //   const newNumLikes = numLikes - 1;
-  //   setNumLikes(newNumLikes);
-  //   localStorage.setItem('numLikes', newNumLikes);
-  //   setLiked(false);
-  // }
 
   const loadMore = () => {
     setLoadedData(datas);
@@ -133,6 +114,50 @@ const Home = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  useEffect(() => {
+    fetchComments();
+  }, []);
+
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get('http://localhost:8095/comment/');
+      setComments(response.data);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
+
+
+  const handlecomment = (e) => {
+    e.preventDefault();
+    // get the form data from state or refs
+    const comments = {
+      comment
+
+
+    };
+
+    axios
+      .post(`http://localhost:8095/comment/create/${id}`, comments)
+      .then(() => {
+        navigate("/home");
+
+      })
+      .catch((err) => {
+        alert(err);
+        console.log(comments)
+      });
+
+  }
+
+  const handleEditComment = () => {
+    console.log("succcsss")
+  }
+
+  const handleDeleteComment = () => {
+    console.log("deleted")
+  }
 
   //dashboard columns
   const columns = [
@@ -259,8 +284,8 @@ const Home = () => {
             visible={modalImages !== null}
             onCancel={() => setModalImages(null)}
             footer={null}
-            style={{ height: 500 }}
-            width={800}
+            style={{ height: 650 }}
+            width={740}
           >
             <img
               src={modalImages}
@@ -311,14 +336,6 @@ const Home = () => {
                   >
                     <List.Item
                       key={item.caption}
-
-                      // actions={[
-
-                      //   <><HeartOutlined key="like" style={{fontSize:20}}/></>,
-
-                      //   <CommentOutlined key="comments" style={{fontSize:20}}/>,
-
-                      // ]}
                     >
                       <div className="postInfor">
                         <List.Item.Meta
@@ -347,18 +364,16 @@ const Home = () => {
                         <button
                           onClick={() => handleLike(item.id)}
                           disabled={liked[item.id]}
-                          className={`likeButton ${
-                            liked[item.id] ? "liked" : "unliked"
-                          }`}
+                          className={`likeButton ${liked[item.id] ? "liked" : "unliked"
+                            }`}
                         >
                           Yummy
                         </button>
                         <button
                           onClick={() => handleUnlike(item.id)}
                           disabled={!liked[item.id]}
-                          className={`unlikeButton ${
-                            liked[item.id] ? "unliked" : "liked"
-                          }`}
+                          className={`unlikeButton ${liked[item.id] ? "unliked" : "liked"
+                            }`}
                         >
                           UnYum
                         </button>
@@ -367,7 +382,6 @@ const Home = () => {
                         <div className="postMoodText">
                           Is Feeling: {item.mood}
                         </div>
-                        {/* <HeartOutlined key="like" style={{ fontSize: 30 }} /> {item.likes} &nbsp;&nbsp; */}
                         <CommentOutlined
                           key="comments"
                           style={{ fontSize: 30 }}
@@ -375,12 +389,33 @@ const Home = () => {
                         {item.comments}
                         <br></br>
                         <br></br>
-                        <Form.Item>
-                          <Input placeholder="Comments" />
+                        <Form.Item
+                          name="comment"
+                        >
+                          <Input placeholder="Comments" onChange={(val) => {
+                            setComments(val.target.value);
+                          }}
+                            addonAfter={<Button type="primary" onClick={handlecomment}>
+                              Send
+
+                            </Button>} />
                         </Form.Item>
+
+                        {item.comment && item.comment.map(comment => (
+                          <div key={comment.id} className="comment">
+                            {comment.comment}
+                            <span className="comment-icons">
+                              <EditOutlined onClick={() => handleEditComment(comment.id)} />
+                              <DeleteOutlined onClick={() => handleDeleteComment(comment.id)} />
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </List.Item>
                   </Card>
+
+
+
                 )}
               >
                 {!showMore && (

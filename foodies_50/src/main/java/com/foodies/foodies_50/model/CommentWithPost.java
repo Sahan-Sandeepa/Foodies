@@ -1,29 +1,30 @@
 package com.foodies.foodies_50.model;
 
+import java.time.LocalDate;
 
-public class Comment {
+public class CommentWithPost {
     private String id;
     private String comment;
     private String commentedBy;
     private String userId;
     private String postId;
+    private String userName;
 
-    public Comment() {
+    public CommentWithPost() {
     }
 
-   
-
-    public Comment(String id, String comment, String commentedBy, String userId, String postId) {
+    
+    public CommentWithPost(String id, String comment, String commentedBy, String userId, String postId,
+            String userName) {
         this.id = id;
         this.comment = comment;
         this.commentedBy = commentedBy;
         this.userId = userId;
         this.postId = postId;
+        this.userName = userName;
     }
 
 
-
-    
     public String getId() {
         return id;
     }
@@ -49,12 +50,20 @@ public class Comment {
     }
 
     // public LocalDate getCommentedAt() {
-    //     return commentedAt;
+    // return commentedAt;
     // }
 
     // public void setCommentedAt(LocalDate commentedAt) {
-    //     this.commentedAt = commentedAt;
+    // this.commentedAt = commentedAt;
     // }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getPostId() {
         return postId;
@@ -65,17 +74,13 @@ public class Comment {
     }
 
 
-
-    public String getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
 
-
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
-
-    
 
 }
