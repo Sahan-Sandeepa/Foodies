@@ -32,6 +32,7 @@ const Login = () => {
         alignItems: "center",
       }}
     >
+      
       <Row>
         <Col span={24}>
           <Button onClick={() => loginWithRedirect()}>Log In</Button>
