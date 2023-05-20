@@ -10,6 +10,8 @@ import {
   HeartOutlined,
   CommentOutlined,
   EnvironmentOutlined,
+  EditOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 
 import Slider from "react-slick";
