@@ -40,7 +40,6 @@ public class PostService {
       updatePost.setCaption(post.getCaption());
       updatePost.setLocation(post.getLocation());
       updatePost.setMood(post.getMood());
-      updatePost.setPostImages(post.getPostImages());
       return postRepository.save(updatePost);
     } else {
       try {
@@ -52,8 +51,8 @@ public class PostService {
     return post;
   }
 
-  public String deleteStory(String StoryId) {
-    postRepository.deleteById(StoryId);
-    return StoryId + " Post deleted ";
+  public String deleteStory(String id) {
+    postRepository.deleteById(id);
+    return id + " Post deleted ";
   }
 }

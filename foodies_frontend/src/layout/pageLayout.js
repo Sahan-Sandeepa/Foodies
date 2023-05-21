@@ -38,11 +38,9 @@ const PageLayout = ({ children }) => {
   const items = [
     getItem("Home", "/dashboard", <BankTwoTone />),
     getItem("Post", "/post", <UserOutlined />),
-    getItem("Story", "/story", <SyncOutlined spin />),
-    getItem("Find Friends", "/friends", <MessageOutlined />),
-    getItem("Notification", "/notification", <NotificationOutlined />),
+    getItem("Story", "/storyView", <SyncOutlined spin />),
+    getItem("Find Friends", "/friends", <UsergroupAddOutlined />),
     getItem("Profile", "/profile", <LineChartOutlined />),
-    getItem("Find Friends","",<UsergroupAddOutlined />),
     getItem("Logout", "logout", <LogoutOutlined />),
     
   ];
@@ -53,6 +51,7 @@ const PageLayout = ({ children }) => {
 
   return (
     <>
+    <div style={{backgroundColor:"red"}}/>
       <div>
         <Layout style={{ minHeight: "180vh" }}>
           
@@ -71,9 +70,7 @@ const PageLayout = ({ children }) => {
               items={items}
               Button="hello"
             />
-             <div style={{ textAlign: "center", padding: "16px", color: "white",fontSize:20 }}>
-            Welcome to <br></br>Foodies
-          </div>
+             
           </Sider>
 
           <Layout className="site-layout">

@@ -1,28 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { List, Avatar, Button ,Card} from 'antd';
+import { List, Col, Button, Card, notification, Row } from 'antd';
 import axios from 'axios';
 
-
 const Friends = () => {
-
   const [friends, setFriends] = useState([]);
   const [followStatus, setFollowStatus] = useState({});
-  const handleFollow = (friendId) => {
+
+  const openNotification = (message) => {
+    notification.open({
+      message: 'Notification',
+      description: message,
+
+    });
+  };
+
+  const handleFollow = (friendId, friendName) => {
     setFollowStatus((prevState) => ({
       ...prevState,
       [friendId]: true,
     }));
+    localStorage.setItem('followStatus', JSON.stringify({ ...followStatus, [friendId]: true }));
+    openNotification(`You followed ${friendName}`);
   };
 
-  const handleUnfollow = (friendId) => {
+  const handleUnfollow = (friendId, friendName) => {
     setFollowStatus((prevState) => ({
       ...prevState,
       [friendId]: false,
     }));
+    localStorage.setItem('followStatus', JSON.stringify({ ...followStatus, [friendId]: false }));
+    openNotification(`You unfollowed ${friendName}`);
   };
 
   useEffect(() => {
     fetchFriends();
+    const storedFollowStatus = localStorage.getItem('followStatus');
+    if (storedFollowStatus) {
+      setFollowStatus(JSON.parse(storedFollowStatus));
+    }
   }, []);
 
   const fetchFriends = async () => {
@@ -35,51 +50,66 @@ const Friends = () => {
   };
 
   return (
-
-
     <>
-    <Card>
-    <List
-        itemLayout="horizontal"
-        dataSource={friends}
-        renderItem={(item) => (
-          <List.Item
-            actions={[
-              followStatus[item.id] ? ( // Check if friend is followed
-                <Button type="primary" shape="round" onClick={() => handleUnfollow(item.id)}>
-                  Unfollow
-                </Button>
-              ) : (
-                <Button type="primary" shape="round" onClick={() => handleFollow(item.id)}>
-                  Follow
-                </Button>
-              ),
-            ]}
-          >
-            <List.Item.Meta
-              title={item.name}
-              avatar={
-                <img
-                  src={item.imageUrl}
-                  alt="Friend"
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                  }}
-                />
-              }
+      <div
+        className="login"
+        style={{
+          minHeight: "180vh",
+          display: "flex",
+        }}
+      >
+
+        <br></br>
+        <br></br>
+
+        {/* <Row> */}
+          <Col span={4} />
+          <Card style={{ width: 800, height:500 }}>
+            <List
+              itemLayout="horizontal"
+              dataSource={friends}
+              renderItem={(item) => {
+                console.log(item); // Log the item object to check its structure
+                return (
+                  <List.Item
+                    actions={[
+                      followStatus[item.id] ? (
+                        <Button type="primary" shape="round" onClick={() => handleUnfollow(item.id, item.name)}>
+                          Unfollow
+                        </Button>
+                      ) : (
+                        <Button type="primary" shape="round" onClick={() => handleFollow(item.id, item.name)}>
+                          Follow
+                        </Button>
+                      ),
+                    ]}
+                  >
+                    <List.Item.Meta
+                      title={item.name}
+                      avatar={
+                        <img
+                          src={item.imageUrl}
+                          alt="Friend"
+                          style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      }
+                    />
+                  </List.Item>
+                );
+              }}
             />
-          </List.Item>
-        )}
-      />
-    </Card>
-      
+          </Card>
+
+        {/* </Row> */}
+      </div>
 
     </>
-
-  )
-}
+  );
+};
 
 export default Friends;

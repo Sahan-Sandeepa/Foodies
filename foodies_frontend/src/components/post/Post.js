@@ -62,7 +62,10 @@ const Post = () => {
         axios
             .post("http://localhost:8095/post/create", post)
             .then(() => {
+                
                 navigate("/home");
+                window.location.reload();
+
             })
             .catch((err) => {
                 alert(err);
@@ -199,7 +202,7 @@ const Post = () => {
                                 <Form.Item
 
                                 >
-                                    <Button type="link" htmlType="submit" style={{ backgroundColor: "#9F000F", color: "white", fontWeight: "bold", borderRadius: "13px", borderColor: "#151B54", borderWidth: "2px", color: "#151B54" }} >
+                                    <Button type="link" htmlType="submit" style={{ backgroundColor: "red", color: "white", fontWeight: "bold", borderRadius: "13px", borderWidth: "2px" }} >
                                         Discard
                                     </Button>
                                 </Form.Item>
@@ -208,7 +211,7 @@ const Post = () => {
 
                                 >
                                     <Link to="/dashboard">
-                                        <Button type="primary" htmlType="submit" className='shareBtn' style={{ fontWeight: "bold", borderRadius: "13px", backgroundColor: "#32CD32", padding: "3px 20px 10px 20px", textAlign: "center", borderColor: "black", color: "#151B54", borderWidth: "2px" }} onClick={handleSubmit}>
+                                        <Button type="primary" htmlType="submit" className='shareBtn' style={{ fontWeight: "bold", borderRadius: "13px", backgroundColor: "#32CD32", padding: "3px 20px 10px 20px", textAlign: "center",  color: "#151B54", borderWidth: "2px" }} onClick={handleSubmit}>
                                             Share
                                         </Button>
                                     </Link>

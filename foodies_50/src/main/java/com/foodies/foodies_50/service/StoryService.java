@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -18,39 +19,44 @@ public class StoryService {
     @Autowired
     private MongoDBStoryRepository storyRepository;
 
-    public List<Story> getAlluser() {
+    public List<Story> getStorys() {
         return storyRepository.findAll();
-    }
-
-
-    public Story addStory(Story Story) {
-        return storyRepository.save(Story);
-    }
-
-    public List<Story> findAllStorys() {
-        return storyRepository.findAll();
-    }
-
-    public Story getStoryByStoryId(String StoryId){
-        return storyRepository.findById(StoryId).get();
-    }
-
-
-    public Story updateStory(Story StoryRequest){
-        //get the existing document from DB
-        // populate new value from request to existing object/entity/document
-        Story existingStory = storyRepository.findById(StoryRequest.getid()).get();
-        existingStory.setCaption(StoryRequest.getCaption());
-        existingStory.setImage(StoryRequest.getImage());
-        return storyRepository.save(existingStory);
-    }
-
-    public String deleteStory(String StoryId){
-        storyRepository.deleteById(StoryId);
-        return StoryId+" Story deleted ";
-    }
-
-   
+      }
     
-
-}
+      public Story addStory(Story Story) {
+        return storyRepository.save(Story);
+      }
+    
+      public List<Story> findAllStoryStorys() {
+        return storyRepository.findAll();
+      }
+    
+      public List<Story> findAllStorysByUserId(String userId) {
+        return storyRepository.findAllByUserId(userId);
+      }
+    
+      public Story getStoryByStoryId(String id) {
+        return storyRepository.findById(id).get();
+      }
+    
+      public Story updateStory(String id, Story Story) throws Exception {
+        Optional<Story> existingProduct = storyRepository.findById(id);
+        if (existingProduct.isPresent()) {
+          Story updateStory = existingProduct.get();
+          updateStory.setCaption(Story.getCaption());;
+          return storyRepository.save(updateStory);
+        } else {
+          try {
+            throw new Exception("Story not found with id: " + id);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+        return Story;
+      }
+    
+      public String deleteStory(String id) {
+        storyRepository.deleteById(id);
+        return id + " Story deleted ";
+      }
+    }

@@ -32,12 +32,13 @@ const Login = () => {
         alignItems: "center",
       }}
     >
+      
       <Row>
         <Col span={24}>
           <Button onClick={() => loginWithRedirect()}>Log In</Button>
         </Col>
         <Col span={24}>
-          <Link to="/user">
+          <Link to="/register">
             <h4>
               No Account?<a> Sign Up</a>
             </h4>

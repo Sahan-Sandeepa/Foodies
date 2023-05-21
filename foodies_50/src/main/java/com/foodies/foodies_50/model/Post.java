@@ -1,6 +1,5 @@
 package com.foodies.foodies_50.model;
 
-import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 

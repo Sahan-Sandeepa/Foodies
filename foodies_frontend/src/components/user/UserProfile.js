@@ -1,11 +1,11 @@
-import { Form, Input, Button, Row, Col, Card, Avatar ,List} from "antd"; // Import Avatar component from antd
+import { Form, Input, Button, Row, Col, Card, Avatar, notification } from "antd"; // Import Avatar component from antd
 import "../../Assets/styles/style.css";
 import { UserOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import { imageToBase64 } from "../../services/imageTobase64";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const { TextArea } = Input;
 const { Meta } = Card;
@@ -23,20 +23,20 @@ const UserProfile = () => {
   const [form] = useForm();
   const [img, setImg] = useState();
   const [posts, setPost] = useState();
-
+const navigate=useNavigate();
   const { id } = useParams();
-useEffect(() => {
-  fetchPost();
-}, []);
+  useEffect(() => {
+    fetchPost();
+  }, []);
 
-const fetchPost = async () => {
-  try {
-    const response = await axios.get(`http://localhost:8095/post/${id}`);
-    setPost(response.data);
-  } catch (error) {
-    console.error('Error fetching post:', error);
-  }
-};
+  const fetchPost = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8095/post/${id}`);
+      setPost(response.data);
+    } catch (error) {
+      console.error("Error fetching post:", error);
+    }
+  };
 
   useEffect(() => {
     const getAllProfileDetails = () => {
@@ -61,8 +61,34 @@ const fetchPost = async () => {
   const onSubmit = () => {
     axios
       .put("http://localhost:8095/users/current", form.getFieldsValue())
-      .then(() => alert("User updated"))
+      .then(() => {
+        notification.success({
+          message: 'Successful',
+          description: 'You have successfully  ',
+        }); 
+        navigate("/profile")
+      }
+      
+      )
       .catch((e) => alert(e));
+  };
+
+  const handleDeleteAccount = () => {
+    axios
+      .delete("http://localhost:8095/users/current")
+      .then(() => {
+        // Show success message
+        notification.success({
+          message: 'Deleted Successful',
+          description: 'You have successfully Deleted ',
+        });        // Redirect the user to the login page or any other desired location
+        // Replace the code below with the appropriate navigation code
+        window.location.href = "/login";
+      })
+      .catch((error) => {
+        // Show error message
+        alert("Error deleting account. Please try again later.");
+      });
   };
 
   const handleImageInputChange = async (event) => {
@@ -187,7 +213,10 @@ const fetchPost = async () => {
                               </Button>
                             </Col>
                             <Col span={12}>
-                              <Button type="primary" htmlType="submit">
+                              <Button
+                                type="primary"
+                                onClick={handleDeleteAccount}
+                              >
                                 Delete My Account
                               </Button>
                             </Col>
@@ -200,21 +229,6 @@ const fetchPost = async () => {
               </Row>
             </Card>
             {/* </Row> */}
-
-            <List
-              grid={{ gutter: 16, column: 3 }}
-              dataSource={posts}
-              renderItem={(post) => (
-                <List.Item>
-                  <Card
-                    cover={<img alt="Post" src={post.location} />}
-                    actions={[<div>{post.mood} Likes</div>]}
-                  >
-                    <Meta title={post.caption} description={post.timestamp} />
-                  </Card>
-                </List.Item>
-              )}
-            />
           </div>
         </div>
       </div>

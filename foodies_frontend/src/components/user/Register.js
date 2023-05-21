@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Upload, Col, Row, Card } from "antd";
+import { Form, Input, Button, Upload, Col, Row, Card,notification } from "antd";
 import axios from "axios";
 import "../../Assets/styles/style.css";
 import { Link } from "react-router-dom";
@@ -11,10 +11,10 @@ const { TextArea } = Input;
 
 const layout = {
   labelCol: {
-    span: 3,
+    span: 4,
   },
   wrapperCol: {
-    span: 21,
+    span: 20,
   },
 };
 
@@ -35,6 +35,11 @@ const Register = () => {
       .post("http://localhost:8095/users/create", form.getFieldsValue())
       .then(() => {
         alert("User created!");
+        notification.success({
+          message: 'Account created Successful',
+          description: 'You have successfully created Account ',
+        });
+        loginWithRedirect();
       })
       .catch((err) => {
         alert(err);
@@ -94,21 +99,23 @@ const Register = () => {
                       </h1>
                     </Row>
                     <Row>
-                      <Form.Item label="Profile Image:" name="imageUrl">
-                        <div>
-                          <input
-                            type="file"
-                            onChange={handleImageInputChange}
-                          />
-                          {form.getFieldValue("imageUrl") && (
-                            <img
-                              src={form.getFieldValue("imageUrl")}
-                              alt="Selected Image"
-                              style={{ width: 50 }}
+                      <Col span={24}>
+                        <Form.Item label="Profile Image:" name="imageUrl">
+                          <div>
+                            <input
+                              type="file"
+                              onChange={handleImageInputChange}
                             />
-                          )}
-                        </div>
-                      </Form.Item>
+                            {form.getFieldValue("imageUrl") && (
+                              <img
+                                src={form.getFieldValue("imageUrl")}
+                                alt="Selected Image"
+                                style={{ width: 50 }}
+                              />
+                            )}
+                          </div>
+                        </Form.Item>
+                      </Col>
                     </Row>
 
                     <br></br>
