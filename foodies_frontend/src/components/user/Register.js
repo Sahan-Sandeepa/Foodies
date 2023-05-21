@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Upload, Col, Row, Card } from "antd";
+import { Form, Input, Button, Upload, Col, Row, Card,notification } from "antd";
 import axios from "axios";
 import "../../Assets/styles/style.css";
 import { Link } from "react-router-dom";
@@ -35,6 +35,10 @@ const Register = () => {
       .post("http://localhost:8095/users/create", form.getFieldsValue())
       .then(() => {
         alert("User created!");
+        notification.success({
+          message: 'Account created Successful',
+          description: 'You have successfully created Account ',
+        });
         loginWithRedirect();
       })
       .catch((err) => {

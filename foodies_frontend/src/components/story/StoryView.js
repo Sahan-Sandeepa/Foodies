@@ -13,10 +13,9 @@ import EditStory from './EditStory';
 import Story from './Story';
 const StoryView = () => {
     const [storys, setStory] = useState([]);
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isCreateModalOpen, setCreateIsModalOpen] = useState(false);
-
     const [selectedItem, setSelectedItem] = useState(null);
 
     const handleCancel = () => {
@@ -41,13 +40,13 @@ const StoryView = () => {
     const handleDeleteAccount = async (id) => {
         axios.delete(`http://localhost:8095/story/${id}`)
             .then(() => {
-                                  window.location.reload(); 
+                window.location.reload();
 
                 notification.success({
                     message: 'Deleted Successful',
                     description: 'You have successfully Deleted Report',
                 });
-                window.location.reload(); 
+                window.location.reload();
 
                 // setIsDeleteModalOpen(false); // Hide the delete modal
                 // refresh();
@@ -57,101 +56,108 @@ const StoryView = () => {
     };
 
 
-    const handleCreate =()=>{
+    const handleCreate = () => {
         navigate("/story")
     }
 
     return (
 
         <>
+            <div
+                className="login"
+                style={{
+                    minHeight: "180vh",
+                    display: "flex",
+                }}
+            >
+                <div style={{ padding: 25 }}>
+                    <div style={{ paddingLeft: 20 }}>
+                        <Button type='primary'
+                            onClick={handleCreate}
+                        >Create Story</Button>
 
-            <div style={{ padding: 25 }}>
-                <div style={{ paddingLeft: 20 }}>
-                    <Button type='primary'
-                       onClick={handleCreate}
-                    >Create Story</Button>
-
-                </div>
-                <Row
-                    gutter={20}
-                    style={{
-                        marginTop: "10px",
-                        width: "100%",
-                    }}
-                >
-                    {storys.map((item) => (
-                        <Col>
-                            <Card
-                                style={{
-                                    borderColor: "#3C1676",
-                                    borderWidth: 3.5,
-                                    margin: "10px",
-                                }}
-                            >
-                                <div style={{ paddingLeft: "30%" }}>
-                                    <Button
-                                        style={{
-                                            backgroundColor: "blue",
-                                            color: "white",
-                                            fontWeight: "bold",
-                                            borderRadius: "13px",
-                                            borderWidth: "2px",
-                                        }}
-                                        onClick={() => {
-                                            setIsModalOpen(true);
-                                            setSelectedItem(item);
-                                        }}
-                                    >
-                                        Edit
-                                    </Button>
-
-                                    <Button
-                                        style={{
-                                            backgroundColor: "red",
-                                            color: "white",
-                                            fontWeight: "bold",
-                                            borderWidth: "2px",
-                                        }}
-                                        onClick={() => handleDeleteAccount(item.id)}
-                                    >
-                                        Delete
-                                    </Button>
-                                </div>
-                                <div>
-                                    <img
-                                        src={item.image}
-                                        alt="Friend"
-                                        style={{
-                                            width: "200px",
-                                            height: "200px",
-                                        }} />
-                                    <div className="postCaptionText">{item.caption}</div>
-                                    <div className="postMoodText">
-                                        Story Mood
-                                    </div>
-                                </div>
-                                <EditStory
-                                    isModalOpen={isModalOpen}
-                                    handleCancel={handleCancel}
-                                    handleOk={async () => {
-                                        setIsModalOpen(false);
+                    </div>
+                    <Row
+                        gutter={2}
+                        style={{
+                            marginTop: "5px",
+                            width: "100%",
+                        }}
+                    >
+                        {storys.map((item) => (
+                            <Col>
+                                <Card
+                                    style={{
+                                        borderColor: "#3C1676",
+                                        borderWidth: 3.5,
+                                        margin: "5px",
                                     }}
-                                    selectedItem={selectedItem} />
+                                >
+                                    <div >
+                                        <Button
+                                            style={{
+                                                backgroundColor: "blue",
+                                                color: "white",
+                                                fontWeight: "bold",
+                                                borderRadius: "13px",
+                                                borderWidth: "2px",
+                                            }}
+                                            onClick={() => {
+                                                setIsModalOpen(true);
+                                                setSelectedItem(item);
+                                            }}
+                                        >
+                                            Edit
+                                        </Button>
 
-                                {/* <Story
+                                        <Button
+                                            style={{
+                                                backgroundColor: "red",
+                                                color: "white",
+                                                fontWeight: "bold",
+                                                borderRadius:5
+                                            }}
+                                            onClick={() => handleDeleteAccount(item.id)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </div>
+                                    <br></br>
+                                    <div>
+                                        <img
+                                            src={item.image}
+                                            alt="Friend"
+                                            style={{
+                                                width: "200px",
+                                                height: "200px",
+                                            }} />
+                                        <div className="postCaptionText">{item.caption}</div>
+                                        <div className="postMoodText">
+                                            Story Mood
+                                        </div>
+                                    </div>
+                                    <EditStory
+                                        isModalOpen={isModalOpen}
+                                        handleCancel={handleCancel}
+                                        handleOk={async () => {
+                                            setIsModalOpen(false);
+                                        }}
+                                        selectedItem={selectedItem} />
+
+                                    {/* <Story
                                     isCreateModalOpen={isCreateModalOpen}
                                     handleCancel={handleCancel}
                                     handleOk={async () => {
                                         setCreateIsModalOpen(false);
                                     }}
                                   /> */}
-                            </Card>
-                        </Col>
-                    ))}
-                </Row>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>
 
+                </div>
             </div>
-
         </>
     )
 }

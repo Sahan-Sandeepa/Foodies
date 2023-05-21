@@ -51,50 +51,62 @@ const Friends = () => {
 
   return (
     <>
-      <Row>
-        <Col span={5} />
-        <Card style={{ width: 800,padding:20 }}>
-          <List
-            itemLayout="horizontal"
-            dataSource={friends}
-            renderItem={(item) => {
-              console.log(item); // Log the item object to check its structure
-              return (
-                <List.Item
-                  actions={[
-                    followStatus[item.id] ? (
-                      <Button type="primary" shape="round" onClick={() => handleUnfollow(item.id, item.name)}>
-                        Unfollow
-                      </Button>
-                    ) : (
-                      <Button type="primary" shape="round" onClick={() => handleFollow(item.id, item.name)}>
-                        Follow
-                      </Button>
-                    ),
-                  ]}
-                >
-                  <List.Item.Meta
-                    title={item.name}
-                    avatar={
-                      <img
-                        src={item.imageUrl}
-                        alt="Friend"
-                        style={{
-                          width: '40px',
-                          height: '40px',
-                          borderRadius: '50%',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    }
-                  />
-                </List.Item>
-              );
-            }}
-          />
-        </Card>
+      <div
+        className="login"
+        style={{
+          minHeight: "180vh",
+          display: "flex",
+        }}
+      >
 
-      </Row>
+        <br></br>
+        <br></br>
+
+        {/* <Row> */}
+          <Col span={4} />
+          <Card style={{ width: 800, height:500 }}>
+            <List
+              itemLayout="horizontal"
+              dataSource={friends}
+              renderItem={(item) => {
+                console.log(item); // Log the item object to check its structure
+                return (
+                  <List.Item
+                    actions={[
+                      followStatus[item.id] ? (
+                        <Button type="primary" shape="round" onClick={() => handleUnfollow(item.id, item.name)}>
+                          Unfollow
+                        </Button>
+                      ) : (
+                        <Button type="primary" shape="round" onClick={() => handleFollow(item.id, item.name)}>
+                          Follow
+                        </Button>
+                      ),
+                    ]}
+                  >
+                    <List.Item.Meta
+                      title={item.name}
+                      avatar={
+                        <img
+                          src={item.imageUrl}
+                          alt="Friend"
+                          style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      }
+                    />
+                  </List.Item>
+                );
+              }}
+            />
+          </Card>
+
+        {/* </Row> */}
+      </div>
 
     </>
   );

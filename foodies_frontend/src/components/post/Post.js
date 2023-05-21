@@ -62,7 +62,10 @@ const Post = () => {
         axios
             .post("http://localhost:8095/post/create", post)
             .then(() => {
+                
                 navigate("/home");
+                window.location.reload();
+
             })
             .catch((err) => {
                 alert(err);

@@ -1,33 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { List, Button, Table, Input } from "antd";
+import { List, Button, Col, Input, notification } from "antd";
 import axios from "axios";
 import "../../Assets/styles/style.css";
 import logo from "../../Assets/images/bg.png";
 import Side_menu from "../common/side_menu";
 import Story from "../story/Story";
-import { Card, Avatar, notification, Typography, Form, Modal } from "antd";
+import { Card, Avatar, Typography, Form, Modal } from "antd";
 import {
-  HeartOutlined,
+  EditTwoTone,
   EditOutlined,
   DeleteOutlined,
   CommentOutlined,
+  DeleteTwoTone,
   EnvironmentOutlined,
 } from "@ant-design/icons";
 
 import Slider from "react-slick";
 import { useNavigate, useParams } from "react-router-dom";
+import CommentPage from "../comment/Comment";
 
 const { Text } = Typography;
 
 const Home = () => {
   const [story, setStory] = useState([]); // Data for the feed
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState([]);
   const [modalImages, setModalImages] = useState(null);
   const [showMore, setShowMore] = useState(false);
   const [loadedData, setLoadedData] = useState(story.slice(0, 3));
   const [showPost, setPost] = useState([]);
   const [comment, setComments] = useState([]);
   const [commentlist, setCommentsList] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateModalOpen, setCreateIsModalOpen] = useState(false);
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const navigate = useNavigate();
   const id = useParams();
   {
@@ -143,6 +151,10 @@ const Home = () => {
     axios
       .post(`http://localhost:8095/comment/create`, commentData)
       .then(() => {
+        notification.success({
+          message: 'Added Comment',
+          description: 'You have Added Comment to Post ',
+        });
         window.location.reload();
 
         // Redirect to the comment page
@@ -157,23 +169,49 @@ const Home = () => {
   const handleEditComment = () => {
     console.log("succcsss")
   }
+
+  const handlecommentUpdate = () => {
+    const updatedData = {
+      // Object containing the updated data
+      comment: comment
+
+      // Add any other properties you want to update
+    };
+
+    axios.put("http://localhost:8095/comment/update/", updatedData)
+      .then(response => {
+        // Handle success
+        window.location.reload();
+
+        console.log('Item updated successfully');
+      })
+      .catch(error => {
+        // Handle error
+        console.error('Error updating item:', error);
+      });
+  };
+
   const handleDeleteComment = async (id) => {
     axios.delete(`http://localhost:8095/comment/${id}`)
-        .then(() => {
-                              window.location.reload(); 
+      .then(() => {
+        window.location.reload();
 
-            notification.success({
-                message: 'Deleted Successful',
-                description: 'You have successfully Deleted Report',
-            });
-            window.location.reload(); 
+        notification.success({
+          message: 'Deleted Successful',
+          description: 'You have successfully Deleted Report',
+        });
+        window.location.reload();
 
-            // setIsDeleteModalOpen(false); // Hide the delete modal
-            // refresh();
-        }).catch((err) => {
-            console.log(err);
-        })
-};
+        // setIsDeleteModalOpen(false); // Hide the delete modal
+        // refresh();
+      }).catch((err) => {
+        console.log(err);
+      })
+  };
+
+
+
+
 
 
   //dashboard columns
@@ -273,6 +311,8 @@ const Home = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+
+
             }}
           >
             <div style={{ overflowX: "auto", display: "flex" }}>
@@ -310,29 +350,11 @@ const Home = () => {
               style={{ width: 700, height: 500 }}
             />
 
-            {/* <div style={{ marginTop: "10px" }}>
-            {selectedItem?.caption}
-          </div> */}
+
           </Modal>
           <br></br>
-          {/* isuru ends here */}
 
-          {/* <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div >
-              {showPost.map(item => (
-                // <Card>
-                <div key={item.key} style={{ borderColor: "red" }}>
-                  {columns[1].render(item.postImage)}
-                  {columns[0].render(item.caption)}
-                  {columns[0].render(item.mood)}
-                  {columns[0].render(item.location)}
 
-                </div>
-                // </Card>
-
-              ))}
-            </div>
-          </div> */}
 
           <Card style={{ backgroundColor: "#3C1676" }}>
             <Card>
@@ -367,75 +389,83 @@ const Home = () => {
                           }
                         />
                       </div>
-                        <br />
-                        <img
-                          src={item.postImages}
-                          alt="Friend"
-                          style={{
-                            width: "500px",
-                            height: "500px",
-                          }}
-                        />
-                        <br></br>
-                        <br></br>
-                        <button
-                          onClick={() => handleLike(item.id)}
-                          disabled={liked[item.id]}
-                          className={`likeButton ${liked[item.id] ? "liked" : "unliked"
-                            }`}
-                        >
-                          Yummy
-                        </button>
-                        <button
-                          onClick={() => handleUnlike(item.id)}
-                          disabled={!liked[item.id]}
-                          className={`unlikeButton ${liked[item.id] ? "unliked" : "liked"
-                            }`}
-                        >
-                          UnYum
-                        </button>
-                        {/* <p>{numLikes}</p> */}
-                        <div className="postCaptionText">{item.caption}</div>
-                        <div className="postMoodText">
-                          Is Feeling: {item.mood}
-                        </div>
-                        <CommentOutlined
-                          key="comments"
-                          style={{ fontSize: 30 }}
-                        />{" "}
-                        {item.comments}
-                        <br></br>
-                        <br></br>
-                        <Form.Item
-                          name="comment"
-                        >
-                          <Input placeholder="Comments" onChange={(val) => {
-                            setComments(val.target.value);
-                          }}
-                            addonAfter={<Button type="primary" onClick={() => { handlecomment(item) }}>
-                              Send
+                      <br />
+                      <img
+                        src={item.postImages}
+                        alt="Friend"
+                        style={{
+                          width: "500px",
+                          height: "500px",
+                        }}
+                      />
+                      <br></br>
+                      <br></br>
+                      <button
+                        onClick={() => handleLike(item.id)}
+                        disabled={liked[item.id]}
+                        className={`likeButton ${liked[item.id] ? "liked" : "unliked"
+                          }`}
+                      >
+                        Yummy
+                      </button>
+                      <button
+                        onClick={() => handleUnlike(item.id)}
+                        disabled={!liked[item.id]}
+                        className={`unlikeButton ${liked[item.id] ? "unliked" : "liked"
+                          }`}
+                      >
+                        UnYum
+                      </button>
+                      {/* <p>{numLikes}</p> */}
+                      <div className="postCaptionText">{item.caption}</div>
+                      <div className="postMoodText">
+                        Is Feeling: {item.mood}
+                      </div>
+                      <CommentOutlined
+                        key="comments"
+                        style={{ fontSize: 30 }}
+                      />{" "}
+                      {item.comments}
+                      <br></br>
+                      <br></br>
+                      <Form.Item
+                        name="comment"
+                      >
+                        <Input placeholder="Comments" onChange={(val) => {
+                          setComments(val.target.value);
+                        }}
+                          addonAfter={<Button type="primary" onClick={() => { handlecomment(item) }}>
+                            Send
 
-                            </Button>} />
-                        </Form.Item>
+                          </Button>} />
+                      </Form.Item>
 
-                        {commentlist.map((commentss) => (
+                      {commentlist.map((commentss) => (
+                        <div key={commentss.id} className="comment">
+
                           <div key={commentss.id} className="comment">
-                           
-                              <div key={commentss.id } className="comment">
-                                {commentss.postId==item.id?
-                                <>
-                                {  commentss.comment}
-                                <span className="comment-icons">
-                                  <EditOutlined onClick={() => handleEditComment(commentss.id)} />
-                                  <DeleteOutlined onClick={() => handleDeleteComment(commentss.id)} />
+                            {commentss.postId == item.id ?
+                              <>
+                                {commentss.comment}
+                                <span className="comment-icons" style={{ marginLeft: 250 }}>
+
+                                  <EditTwoTone onClick={() => {
+                                    setIsModalOpen(true);
+                                    setSelectedItem(commentss);
+                                    console.log("selected item--->", commentss)
+                                  }} />
+                                  <span className="icon-space" style={{marginLeft:30  }}>{/* Add a span element to create space */}
+
+                                  <DeleteTwoTone onClick={() => handleDeleteComment(commentss.id)} />
+                                  </span> 
                                 </span>
-                                </>
-                               :null}
-                               
-                              </div>
-                         
+                              </>
+                              : null}
+
                           </div>
-                        ))}
+
+                        </div>
+                      ))}
 
 
                     </List.Item>
@@ -459,6 +489,13 @@ const Home = () => {
             </Card>
           </Card>
         </Card>
+        <CommentPage
+          isModalOpen={isModalOpen}
+          handleCancel={handleCancel}
+          handleOk={async () => {
+            setIsModalOpen(false);
+          }}
+          selectedItem={selectedItem} />
       </div>
     </>
   );
