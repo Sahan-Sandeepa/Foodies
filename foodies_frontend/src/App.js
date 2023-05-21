@@ -73,6 +73,9 @@ function App() {
       <Route
         path="/noti"
         element={<ProtectedComponent child={<NotificationPage />} />} />
+         <Route
+        path="/comment"
+        element={<ProtectedComponent child={<Comment />} />} />
       <Route path="/register" element={<Register />} />
       <Route path="/callback" element={<CallbackPage />} />
       <Route
@@ -84,10 +87,7 @@ function App() {
         )} />
       <Route path="*" element={<center>Not Found</center>} />
 
-      <Route path="/comment" element={<Comment />} />
 
-      <Route path="/comment" element={<Comment />} />
-      <Route path="/comment" element={<Comment />} />
     </Routes>
     
     

@@ -13,5 +13,6 @@ public interface CommentRepository extends MongoRepository<Comment, String> {
 
     List<Comment> findAllByUserId(String postId);
 
+    void deleteById(String id);
 
 }

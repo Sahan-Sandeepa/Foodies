@@ -1,11 +1,9 @@
 package com.foodies.foodies_50.model;
 
-import java.time.LocalDate;
 
 public class CommentWithPost {
     private String id;
     private String comment;
-    private String commentedBy;
     private String userId;
     private String postId;
     private String userName;
@@ -14,11 +12,10 @@ public class CommentWithPost {
     }
 
     
-    public CommentWithPost(String id, String comment, String commentedBy, String userId, String postId,
+    public CommentWithPost(String id, String comment, String userId, String postId,
             String userName) {
         this.id = id;
         this.comment = comment;
-        this.commentedBy = commentedBy;
         this.userId = userId;
         this.postId = postId;
         this.userName = userName;
@@ -41,13 +38,13 @@ public class CommentWithPost {
         this.comment = comment;
     }
 
-    public String getCommentedBy() {
-        return commentedBy;
-    }
+    // public String getCommentedBy() {
+    //     return commentedBy;
+    // }
 
-    public void setCommentedBy(String commentedBy) {
-        this.commentedBy = commentedBy;
-    }
+    // public void setCommentedBy(String commentedBy) {
+    //     this.commentedBy = commentedBy;
+    // }
 
     // public LocalDate getCommentedAt() {
     // return commentedAt;

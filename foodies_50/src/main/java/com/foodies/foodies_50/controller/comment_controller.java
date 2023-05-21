@@ -35,10 +35,9 @@ public class comment_controller {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Comment createStory(@RequestBody Comment Comment, Principal principal) {
-      Comment.setUserId(principal.getName());
-      Comment.setPostId(principal.getName());
-      return CommentService.addStory(Comment);
+    public Comment createStory(@RequestBody Comment comment) {
+   
+      return CommentService.addStory(comment);
     }
   
     @GetMapping("/")
@@ -52,7 +51,6 @@ public class comment_controller {
           CommentWithPost CommentWithUser = new CommentWithPost(
             Comment.getId(),
             Comment.getComment(),
-            Comment.getCommentedBy(),
             Comment.getUserId(),
             Comment.getPostId(),
             userData.getUsername()
@@ -63,7 +61,6 @@ public class comment_controller {
             CommentWithPost CommentWithUser = new CommentWithPost();
           CommentWithUser.setId(Comment.getPostId());
           CommentWithUser.setComment(Comment.getComment());
-          CommentWithUser.setCommentedBy(Comment.getUserId());
           CommentWithUser.setPostId(Comment.getPostId());
           CommentWithUser.setUserId(Comment.getUserId());
 

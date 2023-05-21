@@ -4,7 +4,6 @@ package com.foodies.foodies_50.model;
 public class Comment {
     private String id;
     private String comment;
-    private String commentedBy;
     private String userId;
     private String postId;
 
@@ -13,10 +12,9 @@ public class Comment {
 
    
 
-    public Comment(String id, String comment, String commentedBy, String userId, String postId) {
+    public Comment(String id, String comment, String userId, String postId) {
         this.id = id;
         this.comment = comment;
-        this.commentedBy = commentedBy;
         this.userId = userId;
         this.postId = postId;
     }
@@ -40,13 +38,13 @@ public class Comment {
         this.comment = comment;
     }
 
-    public String getCommentedBy() {
-        return commentedBy;
-    }
+    // public String getCommentedBy() {
+    //     return commentedBy;
+    // }
 
-    public void setCommentedBy(String commentedBy) {
-        this.commentedBy = commentedBy;
-    }
+    // public void setCommentedBy(String commentedBy) {
+    //     this.commentedBy = commentedBy;
+    // }
 
     // public LocalDate getCommentedAt() {
     //     return commentedAt;

@@ -5,7 +5,7 @@ import "../../Assets/styles/style.css";
 import logo from "../../Assets/images/bg.png";
 import Side_menu from "../common/side_menu";
 import Story from "../story/Story";
-import { Card, Avatar, Image, Typography, Form, Modal } from "antd";
+import { Card, Avatar, notification, Typography, Form, Modal } from "antd";
 import {
   HeartOutlined,
   EditOutlined,
@@ -27,8 +27,9 @@ const Home = () => {
   const [loadedData, setLoadedData] = useState(story.slice(0, 3));
   const [showPost, setPost] = useState([]);
   const [comment, setComments] = useState([]);
+  const [commentlist, setCommentsList] = useState([]);
   const navigate = useNavigate();
-  const id =useParams();
+  const id = useParams();
   {
     /* like start*/
   }
@@ -121,43 +122,59 @@ const Home = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get('http://localhost:8095/comment/');
-      setComments(response.data);
+      const response = await axios.get('http://localhost:8095/comment/current');
+      setCommentsList(response.data);
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
   };
 
 
-  const handlecomment = (e) => {
-    e.preventDefault();
-    // get the form data from state or refs
-    const comments = {
-      comment
-
-
+  const handlecomment = (item) => {
+    console.log("item-->", item)
+    const commentData = {
+      comment: comment,
+      postImage: selectedItem?.postImages,
+      userId: item.userId,
+      postId: item.id
+      ,
     };
 
     axios
-      .post(`http://localhost:8095/comment/create/${id}`, comments)
+      .post(`http://localhost:8095/comment/create`, commentData)
       .then(() => {
-        navigate("/home");
+        window.location.reload();
 
+        // Redirect to the comment page
       })
       .catch((err) => {
         alert(err);
-        console.log(comments)
+        console.log(commentData);
       });
+  };
 
-  }
 
   const handleEditComment = () => {
     console.log("succcsss")
   }
+  const handleDeleteComment = async (id) => {
+    axios.delete(`http://localhost:8095/comment/${id}`)
+        .then(() => {
+                              window.location.reload(); 
 
-  const handleDeleteComment = () => {
-    console.log("deleted")
-  }
+            notification.success({
+                message: 'Deleted Successful',
+                description: 'You have successfully Deleted Report',
+            });
+            window.location.reload(); 
+
+            // setIsDeleteModalOpen(false); // Hide the delete modal
+            // refresh();
+        }).catch((err) => {
+            console.log(err);
+        })
+};
+
 
   //dashboard columns
   const columns = [
@@ -250,7 +267,7 @@ const Home = () => {
         }}
       >
         {/*isuru starts here */}
-        <Card style={{ backgroundColor: "lightblue" }}>
+        <Card >
           <div
             style={{
               display: "flex",
@@ -322,13 +339,13 @@ const Home = () => {
               <List
                 itemLayout="vertical"
                 size="large"
-                style={{ padding: 6, width: 800 }}
+                style={{ padding: 2, width: 800 }}
                 dataSource={showPost.slice().reverse()}
                 renderItem={(item) => (
                   <Card
                     style={{
                       borderColor: "#3C1676",
-                      margin: 10,
+                      margin: 20,
                       borderWidth: 3.5,
                       marginRight: 50,
                       marginBottom: 25,
@@ -336,20 +353,20 @@ const Home = () => {
                   >
                     <List.Item
                       key={item.caption}
+                      style={{ paddingLeft: 80 }}
                     >
-                      <div className="postInfor">
+                      <div className="postInfor" style={{ padding: 5, paddingLeft: 10 }}>
                         <List.Item.Meta
                           avatar={<Avatar src={item.profilePicture} />}
                           title={<a href={item.href}>{item.userName}</a>}
                           description={
-                            <div className="postLocationText">
+                            <div className="postLocationText" style={{ fontSize: 15 }}>
                               <EnvironmentOutlined />
                               &nbsp;{item.location}
                             </div>
                           }
                         />
                       </div>
-                      <div>
                         <br />
                         <img
                           src={item.postImages}
@@ -395,22 +412,32 @@ const Home = () => {
                           <Input placeholder="Comments" onChange={(val) => {
                             setComments(val.target.value);
                           }}
-                            addonAfter={<Button type="primary" onClick={handlecomment}>
+                            addonAfter={<Button type="primary" onClick={() => { handlecomment(item) }}>
                               Send
 
                             </Button>} />
                         </Form.Item>
 
-                        {item.comment && item.comment.map(comment => (
-                          <div key={comment.id} className="comment">
-                            {comment.comment}
-                            <span className="comment-icons">
-                              <EditOutlined onClick={() => handleEditComment(comment.id)} />
-                              <DeleteOutlined onClick={() => handleDeleteComment(comment.id)} />
-                            </span>
+                        {commentlist.map((commentss) => (
+                          <div key={commentss.id} className="comment">
+                           
+                              <div key={commentss.id } className="comment">
+                                {commentss.postId==item.id?
+                                <>
+                                {  commentss.comment}
+                                <span className="comment-icons">
+                                  <EditOutlined onClick={() => handleEditComment(commentss.id)} />
+                                  <DeleteOutlined onClick={() => handleDeleteComment(commentss.id)} />
+                                </span>
+                                </>
+                               :null}
+                               
+                              </div>
+                         
                           </div>
                         ))}
-                      </div>
+
+
                     </List.Item>
                   </Card>
 
