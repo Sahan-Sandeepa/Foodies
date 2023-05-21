@@ -40,8 +40,6 @@ const PageLayout = ({ children }) => {
     getItem("Post", "/post", <UserOutlined />),
     getItem("Story", "/storyView", <SyncOutlined spin />),
     getItem("Find Friends", "/friends", <UsergroupAddOutlined />),
-    getItem("Comments", "/comment", <UsergroupAddOutlined />),
-    getItem("Notification", "/noti", <NotificationOutlined />),
     getItem("Profile", "/profile", <LineChartOutlined />),
     getItem("Logout", "logout", <LogoutOutlined />),
     
@@ -53,6 +51,7 @@ const PageLayout = ({ children }) => {
 
   return (
     <>
+    <div style={{backgroundColor:"red"}}/>
       <div>
         <Layout style={{ minHeight: "180vh" }}>
           

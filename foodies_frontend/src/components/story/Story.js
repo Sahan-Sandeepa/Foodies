@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Form, Input, Card, Modal, Row, Col } from 'antd';
+import { Button, Form, Input, Card, Modal, Row, Col,notification } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import axios from "axios";
@@ -47,7 +47,14 @@ const Story = () => {
         axios
             .post("http://localhost:8095/story/create", story)
             .then(() => {
+                notification.success({
+                    message: 'Updated Successful',
+                    description: 'You have successfully Updated Report',
+                  });
                 navigate("/home");
+
+                window.location.reload();
+
 
             })
             .catch((err) => {

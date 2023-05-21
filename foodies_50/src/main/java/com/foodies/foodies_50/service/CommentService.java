@@ -45,7 +45,6 @@ public class CommentService {
         if (existingProduct.isPresent()) {
             Comment updateStory = existingProduct.get();
           updateStory.setComment(Story.getComment());
-
           return commentRepository.save(updateStory);
         } else {
           try {

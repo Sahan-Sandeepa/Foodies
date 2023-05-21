@@ -1,11 +1,11 @@
-import { Form, Input, Button, Row, Col, Card, Avatar, List } from "antd"; // Import Avatar component from antd
+import { Form, Input, Button, Row, Col, Card, Avatar, notification } from "antd"; // Import Avatar component from antd
 import "../../Assets/styles/style.css";
 import { UserOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import { imageToBase64 } from "../../services/imageTobase64";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const { TextArea } = Input;
 const { Meta } = Card;
@@ -23,7 +23,7 @@ const UserProfile = () => {
   const [form] = useForm();
   const [img, setImg] = useState();
   const [posts, setPost] = useState();
-
+const navigate=useNavigate();
   const { id } = useParams();
   useEffect(() => {
     fetchPost();
@@ -61,7 +61,15 @@ const UserProfile = () => {
   const onSubmit = () => {
     axios
       .put("http://localhost:8095/users/current", form.getFieldsValue())
-      .then(() => alert("User updated"))
+      .then(() => {
+        notification.success({
+          message: 'Successful',
+          description: 'You have successfully  ',
+        }); 
+        navigate("/profile")
+      }
+      
+      )
       .catch((e) => alert(e));
   };
 
@@ -70,8 +78,10 @@ const UserProfile = () => {
       .delete("http://localhost:8095/users/current")
       .then(() => {
         // Show success message
-        alert("Account deleted successfully");
-        // Redirect the user to the login page or any other desired location
+        notification.success({
+          message: 'Deleted Successful',
+          description: 'You have successfully Deleted ',
+        });        // Redirect the user to the login page or any other desired location
         // Replace the code below with the appropriate navigation code
         window.location.href = "/login";
       })
