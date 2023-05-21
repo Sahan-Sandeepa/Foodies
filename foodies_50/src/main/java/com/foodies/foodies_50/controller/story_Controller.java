@@ -1,14 +1,17 @@
 package com.foodies.foodies_50.controller;
 
 import com.foodies.foodies_50.model.Story;
+import com.foodies.foodies_50.model.StoryWithUser;
 import com.foodies.foodies_50.model.User;
 import com.foodies.foodies_50.service.StoryService;
 import com.foodies.foodies_50.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -21,36 +24,64 @@ public class story_Controller {
     @Autowired
     private UserService userService;
 
+
+  
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Story createStory(@RequestBody Story story, Principal principal){
-        String userId = principal.getName();
-        User user = userService.getUserByUserId(userId);
-        story.setUser(user);
-        return storyService.addStory(story);
+    public Story createStory(@RequestBody Story Story, Principal principal) {
+      Story.setUserId(principal.getName());
+      return storyService.addStory(Story);
     }
-
+  
     @GetMapping("/")
-    public List<Story> getStoryList() {
-        return storyService.findAllStorys();
+    public List<StoryWithUser> getStorys() {
+      List<Story> Storys = storyService.findAllStoryStorys();
+      List<StoryWithUser> modifiedStorys = new ArrayList<>();
+      for (int i = 0; i < Storys.size(); i++) {
+        Story Story = Storys.get(i);
+        if (Story.getUserId() != null) {
+          User userData = userService.getUserByUserId(Storys.get(i).getUserId());
+          StoryWithUser StoryWithUser = new StoryWithUser(
+            Story.getId(),
+            Story.getImage(),
+            Story.getCaption(),
+            Story.getUserId(),
+            userData.getUsername()
+          );
+          modifiedStorys.add(StoryWithUser);
+        } else {
+          StoryWithUser StoryWithUser = new StoryWithUser();
+          StoryWithUser.setId(Story.getUserId());
+          StoryWithUser.setImage(Story.getImage());
+          StoryWithUser.setCaption(Story.getCaption());
+          StoryWithUser.setUserId(Story.getUserId());
+        }
+      }
+      return modifiedStorys;
     }
-
-
-    @GetMapping("/{storyId}")
-    public Story getStory(@PathVariable String storyId){
-        return storyService.getStoryByStoryId(storyId);
+  
+    @GetMapping("/current")
+    public List<Story> getUserStorys(Principal principal) {
+      return storyService.findAllStorysByUserId(principal.getName());
     }
-
-    
-
-    @PutMapping("/{StoryId}")
-    public Story modifyStory(@RequestBody Story Story){
-        return storyService.updateStory(Story);
+  
+    @GetMapping("/{StoryId}")
+    public Story getStory(@PathVariable String StoryId) {
+      return storyService.getStoryByStoryId(StoryId);
     }
-
-    @DeleteMapping("/{StoryId}")
-    public String deleteStory(@PathVariable String StoryId){
-        return storyService.deleteStory(StoryId);
+  
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Story> updateStory(
+      @PathVariable("id") String id,
+      @RequestBody Story Story
+    ) throws Exception {
+      Story updatedProduct = storyService.updateStory(id, Story);
+      return ResponseEntity.ok(updatedProduct);
     }
- 
+  
+    @DeleteMapping("/{id}")
+    public String deleteStory(@PathVariable("id") String id) {
+      return storyService.deleteStory(id);
+    }
+   
 }

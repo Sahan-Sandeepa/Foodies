@@ -8,7 +8,6 @@ import com.foodies.foodies_50.service.UserService;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -92,8 +91,8 @@ public class post_Controller {
     return ResponseEntity.ok(updatedProduct);
   }
 
-  @DeleteMapping("/{PostId}")
-  public String deleteStory(@PathVariable String PostId) {
-    return postService.deleteStory(PostId);
+  @DeleteMapping("/{id}")
+  public String deleteStory(@PathVariable("id") String id) {
+    return postService.deleteStory(id);
   }
 }

@@ -1,9 +1,9 @@
 import React from 'react'
-import { Button, Form, Input, Card, Modal, Upload, Col } from 'antd';
+import { Button, Form, Input, Card, Modal, Row, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import axios from "axios";
-import { Link ,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -11,8 +11,7 @@ import { Link ,useNavigate} from "react-router-dom";
 const onFinish = (values) => {
     console.log(values);
 };
-const Story = props => {
-    const { isOpen, handleCancel, handleOk, selectedItem } = props;
+const Story = () => {
     const [refesh, seRefesh] = useState(false);
     const [caption, setCaption] = useState("");
     const [image, setBase64Image] = useState("");
@@ -58,19 +57,23 @@ const Story = props => {
 
     }
 
+    const handleCancel=()=>{
+        navigate("/storyView")
+    }
+
 
     return (
         <>
-       
+
             <div className='login' style={{
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+                minHeight: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
 
 
-      }}>
-        
+            }}>
+
                 <div style={{ paddingLeft: 50 }}>
                     <Card style={{ width: 500, backgroundColor: "whitesmoke", borderRadius: 5, borderColor: "red" }}>
                         <Form
@@ -107,22 +110,33 @@ const Story = props => {
 
                             </Form.Item>
 
-                            <Col span={4} />
-                            <Form.Item
-                                style={{ paddingLeft: 280 }}
-                            >
-                                
-                                <Button type="primary" htmlType="submit" onClick={handleSubmit} >
-                                    Submit
-                                </Button>
-                               
-                               
-                            </Form.Item>
+                            <Row>
+                                <Col span={8} />
+                                <Form.Item
+                                >
+                                    <Button style={{backgroundColor:"red",color:"white", fontWeight:"bold"}} htmlType="submit" onClick={handleCancel} >
+                                        cancel
+                                    </Button>
+
+
+                                </Form.Item>
+                                 <Col span={2} />
+                                <Form.Item
+                                >
+
+                                    <Button type="primary" htmlType="submit" onClick={handleSubmit} >
+                                        Submit
+                                    </Button>
+
+
+                                </Form.Item>
+                            </Row>
+
                         </Form>
                     </Card>
 
                 </div>
-                </div>
+            </div>
         </>
     )
 }
