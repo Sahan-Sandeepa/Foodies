@@ -18,7 +18,6 @@ The goal of Foodies is to provide a safe, enjoyable, and engaging experience for
 - **Backend**: Spring Boot (REST APIs for managing user data, posts, and interactions)
 - **Frontend**: React (Frontend interface for interactions and user engagement)
 - **Authentication**: OAuth 2.0 for secure login
-- **Database**: MySQL or PostgreSQL (for storing user profiles, posts, and comments)
 - **API Documentation**: Postman (for API testing and documentation)
 - **Styling**: Ant Design (for a modern UI)
 - **Version Control**: GitHub (for version control and collaboration)
